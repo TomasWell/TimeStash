@@ -1,0 +1,24 @@
+# 构建产物 —— 不进版本库
+build/
+*.ipa
+*.xcarchive/
+*.dSYM.zip
+*.dSYM
+
+# Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# i18n 翻译流水线的进度文件 —— 不进版本库
+.i18n-progress.json
+**/.i18n-progress.json

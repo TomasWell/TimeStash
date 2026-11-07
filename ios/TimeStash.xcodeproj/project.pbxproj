@@ -1,0 +1,1153 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		002BCA84CAA54AFE455F74C9 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FABD40AA468607D36305E4 /* Localization.swift */; };
+		04AFD5942AAB793F980C9F79 /* VaultRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DF8FA00F089AF19CE45392 /* VaultRepository.swift */; };
+		052700BB71825C27377F33CD /* VaultMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD7075D4D934D8F68D48AD6 /* VaultMathTests.swift */; };
+		060779966511EA4AA2FEE1C2 /* VaultFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12801D409C27D5EBC5A0568 /* VaultFlowUITests.swift */; };
+		08F036562A7A4A14C11CE995 /* TimeStashWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07314FE78F160C9122B8B97D /* TimeStashWidgetView.swift */; };
+		0F3CDD91680DCE4E41AB2C08 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1AF980D5E7B7C9A03ED7B /* TimerView.swift */; };
+		107303ECAA3DFFC1E41D37A6 /* TimeStashWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 99C0EF1A2A33376727A8CE1A /* TimeStashWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		16E64DC9B6B2DA808BC0EACB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7377B8D197F13FA150475FFA /* Localizable.strings */; };
+		25057DA9B85F6634090363D1 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A2BE23F8A04D59B8428207 /* AppDatabase.swift */; };
+		25A35DD5E37E14A83DF4D379 /* VaultTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1E640236322CD330317AD5 /* VaultTask.swift */; };
+		46E9A8FB4C70DB03B56E6B21 /* VaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E1BD2C2543A402251FFA74 /* VaultStore.swift */; };
+		4BE371655B937D671064C047 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = DA392937E4973CA8E21A311D /* GRDB */; };
+		50B486D50DB121F2F820C96D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD455D0C0CEE30838F753578 /* Localizable.strings */; };
+		57659BA20852FCED2D35FC6C /* TimeStashProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABCF312DD26472B69E887F1 /* TimeStashProvider.swift */; };
+		5EFF0789E99A6466A7D5F6E1 /* VaultHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081C9D4546AB9C00C7D75159 /* VaultHomeView.swift */; };
+		60BA4DB7D3EE7A8009719ABE /* VaultTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1E640236322CD330317AD5 /* VaultTask.swift */; };
+		667D71ABFDF1DC09D7A92DE2 /* VaultNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5AFC05EE7B5C439E14D7B4 /* VaultNotifier.swift */; };
+		7455B64AA6D817A6B88EDFE0 /* VaultRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DF8FA00F089AF19CE45392 /* VaultRepository.swift */; };
+		824A7577C41B7E57355E1E2E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A9CFF10C2CE9303E897BE8 /* OnboardingView.swift */; };
+		87B905672F4F1AD46D9C1799 /* VaultRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0785A82F9556E02280C9DA3F /* VaultRepositoryTests.swift */; };
+		8B7E0ACCF5E444C47446E9D8 /* TimeStashApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AA59D6B41DE32C8D247B77 /* TimeStashApp.swift */; };
+		92F02EACF9B95D394C3D8D41 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC04E9A1281A035196F5A90 /* OnboardingUITests.swift */; };
+		A0B6759B0FFE7BE8B7B9559A /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FABD40AA468607D36305E4 /* Localization.swift */; };
+		AF8688C1BBF1089D1E93D4CC /* LedgerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EBABD584AC403B5099AE99 /* LedgerView.swift */; };
+		B2B5A0666D24900120C54E12 /* TimeStashWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243AD5920BB7850DE7EC952 /* TimeStashWidgetBundle.swift */; };
+		B36E95A54C08E15413C7F6CE /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8E55CCDA3E6FDD12FD43D2 /* StatsView.swift */; };
+		C9DC00F3C1DFC9C664992CDC /* DemoSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A53A29FECDCCF61DCC7B5C /* DemoSeed.swift */; };
+		CBD4BBB06A4767D642EF642F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A6B6E781FC13C50BCBAAB836 /* PrivacyInfo.xcprivacy */; };
+		D1E925D0FCB6CA7A1C090D6D /* TabSwitchingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A0366AC768F1D50CB49D1 /* TabSwitchingUITests.swift */; };
+		D289DDC02D6E3FA693CA9286 /* NewTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04A0084696AD0455EDDA73 /* NewTaskView.swift */; };
+		D5E9D677B6CFE56ED7A20EDC /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A2BE23F8A04D59B8428207 /* AppDatabase.swift */; };
+		DB0EF5E927115DE4A4F4C10C /* VaultMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB08F82A96EF90779E48F0 /* VaultMath.swift */; };
+		DB728137B1E1C8B9BACEA53A /* VaultBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D42162C93B27661CD82AE0C /* VaultBoxView.swift */; };
+		E0C70223A1033E496D3D63E7 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 108256E27480C90ECF3B0906 /* GRDB */; };
+		E824E780E73E1A5272C3A878 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E04AA3F220E500542C02ABD /* Assets.xcassets */; };
+		EBE677E8AA309EC0F3780F45 /* VaultMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DB08F82A96EF90779E48F0 /* VaultMath.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3AD9CCA8ED076D038BA27681 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DE04D433C44BBAD86FEBBC28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F284474D8A77D0A26260CE26;
+			remoteInfo = TimeStash;
+		};
+		A0AD84DA73D9892992109C55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DE04D433C44BBAD86FEBBC28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F284474D8A77D0A26260CE26;
+			remoteInfo = TimeStash;
+		};
+		D9FDDBE94F1CB95323C346BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DE04D433C44BBAD86FEBBC28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E46FE8F30C108FBC885BC5F;
+			remoteInfo = TimeStashWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E249BE5349E8DD1FF28B3D60 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				107303ECAA3DFFC1E41D37A6 /* TimeStashWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00415551E47A1A52DE68CB5E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0217F9B0364A806B9458FA6F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		07314FE78F160C9122B8B97D /* TimeStashWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStashWidgetView.swift; sourceTree = "<group>"; };
+		0785A82F9556E02280C9DA3F /* VaultRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultRepositoryTests.swift; sourceTree = "<group>"; };
+		07973B58C565A5475F99297F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
+		081C9D4546AB9C00C7D75159 /* VaultHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultHomeView.swift; sourceTree = "<group>"; };
+		0BE6453E415FA5A8299725D1 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0CB2460F8BCAC08B27EA8308 /* ta */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ta; path = ta.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0D8E55CCDA3E6FDD12FD43D2 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		11A9DC095CA5CE39B792B905 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
+		11D490404A78413B9711C263 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		158B3F22F8277A309E472940 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		15B73304FD4F7B230AA7D5E3 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		1650C4339E839BA842118278 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		169011822E5B22C9CAEF762C /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18D66D46B89DAFB2E9C22749 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1C1EEBAA4C2AD84672354BD6 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1D42162C93B27661CD82AE0C /* VaultBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultBoxView.swift; sourceTree = "<group>"; };
+		1EC199E3B3D603B07D2548BB /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2243AD5920BB7850DE7EC952 /* TimeStashWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStashWidgetBundle.swift; sourceTree = "<group>"; };
+		23774B313C31C1A00563B226 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		23B56C4F7A9A273F86BC7807 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2478C149F7B7CAC9C82D3137 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		255F98F9E100E25A266EE6C7 /* te */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = te; path = te.lproj/Localizable.strings; sourceTree = "<group>"; };
+		270A1FCBE9D5611B0C1A2A7C /* is */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/Localizable.strings; sourceTree = "<group>"; };
+		29F6F2CDEE8A47C27E5BD14E /* fil */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fil; path = fil.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2A18C54DF61F87F4FC89C087 /* ml */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ml; path = ml.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2B5671FD177B64E54A3B5399 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2D347C7C192E2393A44B9830 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2E22A2D14F9BDFA24744348F /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2F9A32A45191291C6883B24C /* pa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pa; path = pa.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30D790B7CF0DE08603D275EA /* TimeStashTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TimeStashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		30F228742F5A54B28BD92159 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		334F98AA6014B8D509B73153 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		37356B01390BBAEBF221FD28 /* gu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = gu; path = gu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		38692F5086131DA00B0BD9F5 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3E04A0084696AD0455EDDA73 /* NewTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskView.swift; sourceTree = "<group>"; };
+		42424A9D66BB4B3D1E92AECD /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		43AA59D6B41DE32C8D247B77 /* TimeStashApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStashApp.swift; sourceTree = "<group>"; };
+		4478E408DA3F47D729D8A0DB /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		462104D3760D342EC7E2A692 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4A0723503CDA05F2811919CB /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4A4BE96A768744DF6CF53982 /* mr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mr; path = mr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4CC04E9A1281A035196F5A90 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
+		4D80DDE74E758A8A43AF398B /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50C27117B4F3191833D02ECF /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
+		53DB08F82A96EF90779E48F0 /* VaultMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultMath.swift; sourceTree = "<group>"; };
+		5600CDF78C61BCB440EE365B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		568059D1008E400B9E56242D /* pa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pa; path = pa.lproj/Localizable.strings; sourceTree = "<group>"; };
+		56A3AD4C2927EFF9324BE942 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5A2A0366AC768F1D50CB49D1 /* TabSwitchingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwitchingUITests.swift; sourceTree = "<group>"; };
+		5F24F271469975BC129366BA /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5FFF6B86E912CBFA75197568 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6242B4ABFD126ABCA79A5A36 /* fil */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fil; path = fil.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64868B293129E382F474D4BC /* gu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = gu; path = gu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		64FC4B237EA2B96477D4AC22 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
+		69D0D66EEDDEA3CB4E337465 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6ABA12CA8E746E064AFB0943 /* ml */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ml; path = ml.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D4B1F959D276B833893C9E3 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6DF030A50E6BEB1FFC5E55EC /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6E04AA3F220E500542C02ABD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		703ED3739C1483D154268CA9 /* TimeStashUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TimeStashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7441FC28DE96196BFC690D93 /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sr; path = sr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		75319F3CEB153D32362FD13B /* te */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = te; path = te.lproj/Localizable.strings; sourceTree = "<group>"; };
+		762905C2B3725F3A6E307687 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		7775051EE05BAF76FE066B76 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		77B11DB1A0CC1E683C6AD1CC /* is */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/Localizable.strings; sourceTree = "<group>"; };
+		787677C9937664A882F9E26A /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7ABCF312DD26472B69E887F1 /* TimeStashProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStashProvider.swift; sourceTree = "<group>"; };
+		7B6BE5084FEC887ED9239D0F /* ta */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ta; path = ta.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7BAA67C7CA71CC2B1DF902A9 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7DFA6F7EDF083997BD0A7AAD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		81A53A29FECDCCF61DCC7B5C /* DemoSeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSeed.swift; sourceTree = "<group>"; };
+		81BBF582ADF0DA206AA3BD36 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		837FD50CD3589087972D063A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8380A87672BB1E76E85BA3AD /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bg; path = bg.lproj/Localizable.strings; sourceTree = "<group>"; };
+		878DD2D7272E462ED87CB444 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		897B744F3E88814630C694B0 /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sr; path = sr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		897CC0FCE2B0529FB6E5FDAD /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8DD3CC904B7720C9B7F973C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8F3FC8EB1CC4F808745CAD39 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		94C676415DD071D7BACA39FA /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		99C0EF1A2A33376727A8CE1A /* TimeStashWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TimeStashWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A62D3D6DD50AC5B3FFC2CB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9B1F682F633FF6FED3692FA3 /* mr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mr; path = mr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9BD04CA68D12BDB4308E5B5A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9CE8E6D492F28C388BDB1EE2 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A04765C4915DBECE2A12FC3F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A12801D409C27D5EBC5A0568 /* VaultFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultFlowUITests.swift; sourceTree = "<group>"; };
+		A2EBABD584AC403B5099AE99 /* LedgerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerView.swift; sourceTree = "<group>"; };
+		A31D9338224BD5B0D55822EC /* kn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kn; path = kn.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A6716E10240D422C1670C5DE /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A6B6E781FC13C50BCBAAB836 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A827A26820776996FDFF2818 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AA1B980411AB9EECB20A41C1 /* TimeStash.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TimeStash.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA1E640236322CD330317AD5 /* VaultTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultTask.swift; sourceTree = "<group>"; };
+		AA2E0DDDDE18D0B09201E654 /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ABEFED010CD3E4A2EDE7B2A6 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AC573962FCF6142EB1038B27 /* bn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bn; path = bn.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ADFF824B2B8E5A6B7D0D68DA /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B0A2BE23F8A04D59B8428207 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
+		B3A9CFF10C2CE9303E897BE8 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		B728215A3F5DC4BF5E6C5542 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B7EB788C50D9B787FEFBD04E /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B9FABD40AA468607D36305E4 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		BA8D333F147FD5837510B0B4 /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C22DE668D977195DD24C0677 /* bn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bn; path = bn.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C75F9769E238850C4718F475 /* TimeStash.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeStash.entitlements; sourceTree = "<group>"; };
+		CAC19E1D93C52338DEC83654 /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bg; path = bg.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CB8B24E30CC5351FA4BA0A61 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CD84BCF3206DA16390B5996D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CDD7075D4D934D8F68D48AD6 /* VaultMathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultMathTests.swift; sourceTree = "<group>"; };
+		CE4E3CB082A104084A20B797 /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D15007510438D5E79C9BF249 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D4B5497C74B383C47815A617 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D8DF8FA00F089AF19CE45392 /* VaultRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultRepository.swift; sourceTree = "<group>"; };
+		DDF9F0FE2673BE6CCB2195EA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DF7025FC96B5F3039C569A11 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E346077BEA7FD31A0123DFB2 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E3A4897B74FA1407A2F5D16F /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E3E1BD2C2543A402251FFA74 /* VaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultStore.swift; sourceTree = "<group>"; };
+		E49D4AE58CC8F1A3087BCE2A /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E5E1AF980D5E7B7C9A03ED7B /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		E8D3FBF827365E5B9F46D5B7 /* TimeStashWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeStashWidget.entitlements; sourceTree = "<group>"; };
+		E95E2E62F83B3D0EB90099E8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		EA151EAC2AE6D5A0B230297F /* kn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kn; path = kn.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EC5AFC05EE7B5C439E14D7B4 /* VaultNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultNotifier.swift; sourceTree = "<group>"; };
+		ECC2A29355046BDB099435AD /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ED380B0DBB655501C9D71B7C /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ED67A3D83D807C3083BC4D07 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EDC7F9E5CCB9736670723354 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EEB2C863612B77A7ACBFF23B /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F2DA27B50FA370D63A226778 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F6ADAAE6C2E308CD0A8EAA1F /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		322F9D081BA310FD1B11E6B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0C70223A1033E496D3D63E7 /* GRDB in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8E44CD760A614674FEFD7A11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BE371655B937D671064C047 /* GRDB in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		39D38341E605D900408DCDDE /* i18n */ = {
+			isa = PBXGroup;
+			children = (
+				DD455D0C0CEE30838F753578 /* Localizable.strings */,
+			);
+			path = i18n;
+			sourceTree = "<group>";
+		};
+		42686FFAC30351DD0BAF24B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA1B980411AB9EECB20A41C1 /* TimeStash.app */,
+				30D790B7CF0DE08603D275EA /* TimeStashTests.xctest */,
+				703ED3739C1483D154268CA9 /* TimeStashUITests.xctest */,
+				99C0EF1A2A33376727A8CE1A /* TimeStashWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4288BAF487FF832B44BA1457 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				81A53A29FECDCCF61DCC7B5C /* DemoSeed.swift */,
+				B9FABD40AA468607D36305E4 /* Localization.swift */,
+				EC5AFC05EE7B5C439E14D7B4 /* VaultNotifier.swift */,
+				E3E1BD2C2543A402251FFA74 /* VaultStore.swift */,
+			);
+			path = util;
+			sourceTree = "<group>";
+		};
+		45A6E9DD8BDFD95464613D7D /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				A2EBABD584AC403B5099AE99 /* LedgerView.swift */,
+				3E04A0084696AD0455EDDA73 /* NewTaskView.swift */,
+				B3A9CFF10C2CE9303E897BE8 /* OnboardingView.swift */,
+				0D8E55CCDA3E6FDD12FD43D2 /* StatsView.swift */,
+				E5E1AF980D5E7B7C9A03ED7B /* TimerView.swift */,
+				1D42162C93B27661CD82AE0C /* VaultBoxView.swift */,
+				081C9D4546AB9C00C7D75159 /* VaultHomeView.swift */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
+		5B639CD38C8D59FEE5176E9F /* data */ = {
+			isa = PBXGroup;
+			children = (
+				B0A2BE23F8A04D59B8428207 /* AppDatabase.swift */,
+				D8DF8FA00F089AF19CE45392 /* VaultRepository.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		68EFE76BC121E4C9654C85CB /* TimeStashWidget */ = {
+			isa = PBXGroup;
+			children = (
+				B728215A3F5DC4BF5E6C5542 /* Info.plist */,
+				7ABCF312DD26472B69E887F1 /* TimeStashProvider.swift */,
+				E8D3FBF827365E5B9F46D5B7 /* TimeStashWidget.entitlements */,
+				2243AD5920BB7850DE7EC952 /* TimeStashWidgetBundle.swift */,
+				07314FE78F160C9122B8B97D /* TimeStashWidgetView.swift */,
+				C13A7F50807CA5ADC6FCB102 /* i18n */,
+			);
+			path = TimeStashWidget;
+			sourceTree = "<group>";
+		};
+		76BED1422DAEE3194C3BBC42 /* TimeStashUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4CC04E9A1281A035196F5A90 /* OnboardingUITests.swift */,
+				5A2A0366AC768F1D50CB49D1 /* TabSwitchingUITests.swift */,
+				A12801D409C27D5EBC5A0568 /* VaultFlowUITests.swift */,
+			);
+			path = TimeStashUITests;
+			sourceTree = "<group>";
+		};
+		9058AC42B0DABC2D8E6C91A4 /* domain */ = {
+			isa = PBXGroup;
+			children = (
+				53DB08F82A96EF90779E48F0 /* VaultMath.swift */,
+				AA1E640236322CD330317AD5 /* VaultTask.swift */,
+			);
+			path = domain;
+			sourceTree = "<group>";
+		};
+		B32F55CC58379CD0E49F09C0 /* TimeStashTests */ = {
+			isa = PBXGroup;
+			children = (
+				CDD7075D4D934D8F68D48AD6 /* VaultMathTests.swift */,
+				0785A82F9556E02280C9DA3F /* VaultRepositoryTests.swift */,
+			);
+			path = TimeStashTests;
+			sourceTree = "<group>";
+		};
+		C13A7F50807CA5ADC6FCB102 /* i18n */ = {
+			isa = PBXGroup;
+			children = (
+				7377B8D197F13FA150475FFA /* Localizable.strings */,
+			);
+			path = i18n;
+			sourceTree = "<group>";
+		};
+		F467BAE6F9A818267F47A258 = {
+			isa = PBXGroup;
+			children = (
+				F76228F82315AEBC904484A5 /* TimeStash */,
+				B32F55CC58379CD0E49F09C0 /* TimeStashTests */,
+				76BED1422DAEE3194C3BBC42 /* TimeStashUITests */,
+				68EFE76BC121E4C9654C85CB /* TimeStashWidget */,
+				42686FFAC30351DD0BAF24B6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F76228F82315AEBC904484A5 /* TimeStash */ = {
+			isa = PBXGroup;
+			children = (
+				6E04AA3F220E500542C02ABD /* Assets.xcassets */,
+				9A62D3D6DD50AC5B3FFC2CB5 /* Info.plist */,
+				A6B6E781FC13C50BCBAAB836 /* PrivacyInfo.xcprivacy */,
+				C75F9769E238850C4718F475 /* TimeStash.entitlements */,
+				43AA59D6B41DE32C8D247B77 /* TimeStashApp.swift */,
+				5B639CD38C8D59FEE5176E9F /* data */,
+				9058AC42B0DABC2D8E6C91A4 /* domain */,
+				39D38341E605D900408DCDDE /* i18n */,
+				45A6E9DD8BDFD95464613D7D /* ui */,
+				4288BAF487FF832B44BA1457 /* util */,
+			);
+			path = TimeStash;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1E46FE8F30C108FBC885BC5F /* TimeStashWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5198BA84534D762046D28E5E /* Build configuration list for PBXNativeTarget "TimeStashWidget" */;
+			buildPhases = (
+				E12477C58C339D23C72B4BFA /* Sources */,
+				92D4DB84CD0B773C200B78D7 /* Resources */,
+				8E44CD760A614674FEFD7A11 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TimeStashWidget;
+			packageProductDependencies = (
+				DA392937E4973CA8E21A311D /* GRDB */,
+			);
+			productName = TimeStashWidget;
+			productReference = 99C0EF1A2A33376727A8CE1A /* TimeStashWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		745A4A1C502D1AD981DA3DF7 /* TimeStashTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7D7010AE58C19F45D0D49173 /* Build configuration list for PBXNativeTarget "TimeStashTests" */;
+			buildPhases = (
+				8087D38DD802A5FE52E8B786 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB3EC4B20E409EAA9B6EFAEE /* PBXTargetDependency */,
+			);
+			name = TimeStashTests;
+			packageProductDependencies = (
+			);
+			productName = TimeStashTests;
+			productReference = 30D790B7CF0DE08603D275EA /* TimeStashTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C86BC436AEFCA87566AD798C /* TimeStashUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB25FE426B0B629315F3EAA2 /* Build configuration list for PBXNativeTarget "TimeStashUITests" */;
+			buildPhases = (
+				5CC85CCC3ED5A54231DE1D96 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ED6D3D910E460EA97D602755 /* PBXTargetDependency */,
+			);
+			name = TimeStashUITests;
+			packageProductDependencies = (
+			);
+			productName = TimeStashUITests;
+			productReference = 703ED3739C1483D154268CA9 /* TimeStashUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		F284474D8A77D0A26260CE26 /* TimeStash */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43A82F5F78BFE1E8C144941D /* Build configuration list for PBXNativeTarget "TimeStash" */;
+			buildPhases = (
+				68A46C551C0DF254D496C82B /* Sources */,
+				7CF93578F60FFB4C9FF7A9E1 /* Resources */,
+				322F9D081BA310FD1B11E6B4 /* Frameworks */,
+				E249BE5349E8DD1FF28B3D60 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				823280B7F13926046444B953 /* PBXTargetDependency */,
+			);
+			name = TimeStash;
+			packageProductDependencies = (
+				108256E27480C90ECF3B0906 /* GRDB */,
+			);
+			productName = TimeStash;
+			productReference = AA1B980411AB9EECB20A41C1 /* TimeStash.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DE04D433C44BBAD86FEBBC28 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					1E46FE8F30C108FBC885BC5F = {
+						DevelopmentTeam = QLJ5YWNC2W;
+						ProvisioningStyle = Manual;
+					};
+					745A4A1C502D1AD981DA3DF7 = {
+						DevelopmentTeam = QLJ5YWNC2W;
+						ProvisioningStyle = Manual;
+					};
+					C86BC436AEFCA87566AD798C = {
+						DevelopmentTeam = QLJ5YWNC2W;
+						ProvisioningStyle = Manual;
+						TestTargetID = F284474D8A77D0A26260CE26;
+					};
+					F284474D8A77D0A26260CE26 = {
+						DevelopmentTeam = QLJ5YWNC2W;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 8442BADB1C5CA08F4B5A5CD8 /* Build configuration list for PBXProject "TimeStash" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				ar,
+				bg,
+				bn,
+				cs,
+				da,
+				de,
+				el,
+				en,
+				es,
+				et,
+				fi,
+				fil,
+				fr,
+				gu,
+				he,
+				hi,
+				hr,
+				hu,
+				id,
+				is,
+				it,
+				ja,
+				kn,
+				ko,
+				lt,
+				lv,
+				ml,
+				mr,
+				ms,
+				nb,
+				nl,
+				pa,
+				pl,
+				"pt-BR",
+				"pt-PT",
+				ro,
+				ru,
+				sk,
+				sl,
+				sr,
+				sv,
+				ta,
+				te,
+				th,
+				tr,
+				uk,
+				ur,
+				vi,
+				"zh-Hans",
+				"zh-Hant",
+			);
+			mainGroup = F467BAE6F9A818267F47A258;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BD160E5DD071DAF086BBACA6 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 42686FFAC30351DD0BAF24B6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F284474D8A77D0A26260CE26 /* TimeStash */,
+				1E46FE8F30C108FBC885BC5F /* TimeStashWidget */,
+				745A4A1C502D1AD981DA3DF7 /* TimeStashTests */,
+				C86BC436AEFCA87566AD798C /* TimeStashUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7CF93578F60FFB4C9FF7A9E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E824E780E73E1A5272C3A878 /* Assets.xcassets in Resources */,
+				50B486D50DB121F2F820C96D /* Localizable.strings in Resources */,
+				CBD4BBB06A4767D642EF642F /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		92D4DB84CD0B773C200B78D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16E64DC9B6B2DA808BC0EACB /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5CC85CCC3ED5A54231DE1D96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92F02EACF9B95D394C3D8D41 /* OnboardingUITests.swift in Sources */,
+				D1E925D0FCB6CA7A1C090D6D /* TabSwitchingUITests.swift in Sources */,
+				060779966511EA4AA2FEE1C2 /* VaultFlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68A46C551C0DF254D496C82B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25057DA9B85F6634090363D1 /* AppDatabase.swift in Sources */,
+				C9DC00F3C1DFC9C664992CDC /* DemoSeed.swift in Sources */,
+				AF8688C1BBF1089D1E93D4CC /* LedgerView.swift in Sources */,
+				002BCA84CAA54AFE455F74C9 /* Localization.swift in Sources */,
+				D289DDC02D6E3FA693CA9286 /* NewTaskView.swift in Sources */,
+				824A7577C41B7E57355E1E2E /* OnboardingView.swift in Sources */,
+				B36E95A54C08E15413C7F6CE /* StatsView.swift in Sources */,
+				8B7E0ACCF5E444C47446E9D8 /* TimeStashApp.swift in Sources */,
+				0F3CDD91680DCE4E41AB2C08 /* TimerView.swift in Sources */,
+				DB728137B1E1C8B9BACEA53A /* VaultBoxView.swift in Sources */,
+				5EFF0789E99A6466A7D5F6E1 /* VaultHomeView.swift in Sources */,
+				EBE677E8AA309EC0F3780F45 /* VaultMath.swift in Sources */,
+				667D71ABFDF1DC09D7A92DE2 /* VaultNotifier.swift in Sources */,
+				04AFD5942AAB793F980C9F79 /* VaultRepository.swift in Sources */,
+				46E9A8FB4C70DB03B56E6B21 /* VaultStore.swift in Sources */,
+				60BA4DB7D3EE7A8009719ABE /* VaultTask.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8087D38DD802A5FE52E8B786 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				052700BB71825C27377F33CD /* VaultMathTests.swift in Sources */,
+				87B905672F4F1AD46D9C1799 /* VaultRepositoryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E12477C58C339D23C72B4BFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5E9D677B6CFE56ED7A20EDC /* AppDatabase.swift in Sources */,
+				A0B6759B0FFE7BE8B7B9559A /* Localization.swift in Sources */,
+				57659BA20852FCED2D35FC6C /* TimeStashProvider.swift in Sources */,
+				B2B5A0666D24900120C54E12 /* TimeStashWidgetBundle.swift in Sources */,
+				08F036562A7A4A14C11CE995 /* TimeStashWidgetView.swift in Sources */,
+				DB0EF5E927115DE4A4F4C10C /* VaultMath.swift in Sources */,
+				7455B64AA6D817A6B88EDFE0 /* VaultRepository.swift in Sources */,
+				25A35DD5E37E14A83DF4D379 /* VaultTask.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		823280B7F13926046444B953 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E46FE8F30C108FBC885BC5F /* TimeStashWidget */;
+			targetProxy = D9FDDBE94F1CB95323C346BE /* PBXContainerItemProxy */;
+		};
+		ED6D3D910E460EA97D602755 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F284474D8A77D0A26260CE26 /* TimeStash */;
+			targetProxy = 3AD9CCA8ED076D038BA27681 /* PBXContainerItemProxy */;
+		};
+		FB3EC4B20E409EAA9B6EFAEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F284474D8A77D0A26260CE26 /* TimeStash */;
+			targetProxy = A0AD84DA73D9892992109C55 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7377B8D197F13FA150475FFA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9CE8E6D492F28C388BDB1EE2 /* ar */,
+				CAC19E1D93C52338DEC83654 /* bg */,
+				C22DE668D977195DD24C0677 /* bn */,
+				81BBF582ADF0DA206AA3BD36 /* cs */,
+				EEB2C863612B77A7ACBFF23B /* da */,
+				8DD3CC904B7720C9B7F973C8 /* de */,
+				18D66D46B89DAFB2E9C22749 /* el */,
+				837FD50CD3589087972D063A /* en */,
+				7DFA6F7EDF083997BD0A7AAD /* es */,
+				50C27117B4F3191833D02ECF /* et */,
+				E3A4897B74FA1407A2F5D16F /* fi */,
+				29F6F2CDEE8A47C27E5BD14E /* fil */,
+				A04765C4915DBECE2A12FC3F /* fr */,
+				64868B293129E382F474D4BC /* gu */,
+				11A9DC095CA5CE39B792B905 /* he */,
+				30F228742F5A54B28BD92159 /* hi */,
+				DDF9F0FE2673BE6CCB2195EA /* hr */,
+				787677C9937664A882F9E26A /* hu */,
+				0BE6453E415FA5A8299725D1 /* id */,
+				270A1FCBE9D5611B0C1A2A7C /* is */,
+				5600CDF78C61BCB440EE365B /* it */,
+				A827A26820776996FDFF2818 /* ja */,
+				EA151EAC2AE6D5A0B230297F /* kn */,
+				00415551E47A1A52DE68CB5E /* ko */,
+				42424A9D66BB4B3D1E92AECD /* lt */,
+				56A3AD4C2927EFF9324BE942 /* lv */,
+				2A18C54DF61F87F4FC89C087 /* ml */,
+				9B1F682F633FF6FED3692FA3 /* mr */,
+				07973B58C565A5475F99297F /* ms */,
+				7BAA67C7CA71CC2B1DF902A9 /* nb */,
+				4D80DDE74E758A8A43AF398B /* nl */,
+				568059D1008E400B9E56242D /* pa */,
+				94C676415DD071D7BACA39FA /* pl */,
+				1650C4339E839BA842118278 /* pt-BR */,
+				7775051EE05BAF76FE066B76 /* pt-PT */,
+				2D347C7C192E2393A44B9830 /* ro */,
+				8F3FC8EB1CC4F808745CAD39 /* ru */,
+				462104D3760D342EC7E2A692 /* sk */,
+				169011822E5B22C9CAEF762C /* sl */,
+				897B744F3E88814630C694B0 /* sr */,
+				2B5671FD177B64E54A3B5399 /* sv */,
+				0CB2460F8BCAC08B27EA8308 /* ta */,
+				255F98F9E100E25A266EE6C7 /* te */,
+				ABEFED010CD3E4A2EDE7B2A6 /* th */,
+				9BD04CA68D12BDB4308E5B5A /* tr */,
+				EDC7F9E5CCB9736670723354 /* uk */,
+				E49D4AE58CC8F1A3087BCE2A /* ur */,
+				F6ADAAE6C2E308CD0A8EAA1F /* vi */,
+				E95E2E62F83B3D0EB90099E8 /* zh-Hans */,
+				762905C2B3725F3A6E307687 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		DD455D0C0CEE30838F753578 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CB8B24E30CC5351FA4BA0A61 /* ar */,
+				8380A87672BB1E76E85BA3AD /* bg */,
+				AC573962FCF6142EB1038B27 /* bn */,
+				B7EB788C50D9B787FEFBD04E /* cs */,
+				ED380B0DBB655501C9D71B7C /* da */,
+				2478C149F7B7CAC9C82D3137 /* de */,
+				69D0D66EEDDEA3CB4E337465 /* el */,
+				23B56C4F7A9A273F86BC7807 /* en */,
+				1EC199E3B3D603B07D2548BB /* es */,
+				ADFF824B2B8E5A6B7D0D68DA /* et */,
+				334F98AA6014B8D509B73153 /* fi */,
+				6242B4ABFD126ABCA79A5A36 /* fil */,
+				F2DA27B50FA370D63A226778 /* fr */,
+				37356B01390BBAEBF221FD28 /* gu */,
+				64FC4B237EA2B96477D4AC22 /* he */,
+				A6716E10240D422C1670C5DE /* hi */,
+				897CC0FCE2B0529FB6E5FDAD /* hr */,
+				D15007510438D5E79C9BF249 /* hu */,
+				6D4B1F959D276B833893C9E3 /* id */,
+				77B11DB1A0CC1E683C6AD1CC /* is */,
+				878DD2D7272E462ED87CB444 /* it */,
+				ED67A3D83D807C3083BC4D07 /* ja */,
+				A31D9338224BD5B0D55822EC /* kn */,
+				0217F9B0364A806B9458FA6F /* ko */,
+				4478E408DA3F47D729D8A0DB /* lt */,
+				38692F5086131DA00B0BD9F5 /* lv */,
+				6ABA12CA8E746E064AFB0943 /* ml */,
+				4A4BE96A768744DF6CF53982 /* mr */,
+				BA8D333F147FD5837510B0B4 /* ms */,
+				ECC2A29355046BDB099435AD /* nb */,
+				158B3F22F8277A309E472940 /* nl */,
+				2F9A32A45191291C6883B24C /* pa */,
+				1C1EEBAA4C2AD84672354BD6 /* pl */,
+				15B73304FD4F7B230AA7D5E3 /* pt-BR */,
+				5F24F271469975BC129366BA /* pt-PT */,
+				11D490404A78413B9711C263 /* ro */,
+				CD84BCF3206DA16390B5996D /* ru */,
+				5FFF6B86E912CBFA75197568 /* sk */,
+				AA2E0DDDDE18D0B09201E654 /* sl */,
+				7441FC28DE96196BFC690D93 /* sr */,
+				DF7025FC96B5F3039C569A11 /* sv */,
+				7B6BE5084FEC887ED9239D0F /* ta */,
+				75319F3CEB153D32362FD13B /* te */,
+				E346077BEA7FD31A0123DFB2 /* th */,
+				23774B313C31C1A00563B226 /* tr */,
+				4A0723503CDA05F2811919CB /* uk */,
+				CE4E3CB082A104084A20B797 /* ur */,
+				2E22A2D14F9BDFA24744348F /* vi */,
+				D4B5497C74B383C47815A617 /* zh-Hans */,
+				6DF030A50E6BEB1FFC5E55EC /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		12E156870B9F1B37F954867F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TimeStash/TimeStash.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_LANGUAGE = "zh-Hans";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeStash/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TimeStash;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIBackgroundModes = "";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp --options runtime";
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash;
+				PROVISIONING_PROFILE_SPECIFIER = "TimeStash Distribution v5";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		191D11086DB5B62C291EABC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = QLJ5YWNC2W;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		26A7A198A286910DC606E8BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TimeStashWidget/TimeStashWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_LANGUAGE = "zh-Hans";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeStashWidget/Info.plist;
+				INFOPLIST_KEY_NSExtension = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp --options runtime";
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash.widget;
+				PROVISIONING_PROFILE_SPECIFIER = "TimeStashWidget Distribution v3";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		31BBC2B6DBFCB803C3ECBADD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TimeStash.app/TimeStash";
+			};
+			name = Debug;
+		};
+		4E3EA36C66E4C3422F8612AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TimeStash;
+			};
+			name = Release;
+		};
+		645FBDCDDD7CFDFEB3907A5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TimeStash/TimeStash.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_LANGUAGE = "zh-Hans";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeStash/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TimeStash;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIBackgroundModes = "";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp --options runtime";
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash;
+				PROVISIONING_PROFILE_SPECIFIER = "TimeStash Distribution v5";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		71D203273B3E0D058A083710 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TimeStash.app/TimeStash";
+			};
+			name = Release;
+		};
+		7B14736C88D2DAAC68661B7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TimeStashWidget/TimeStashWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_LANGUAGE = "zh-Hans";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TimeStashWidget/Info.plist;
+				INFOPLIST_KEY_NSExtension = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp --options runtime";
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash.widget;
+				PROVISIONING_PROFILE_SPECIFIER = "TimeStashWidget Distribution v3";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8540AF4B34ECBEBED7C03902 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = QLJ5YWNC2W;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		E96EF2CB0ADCE96D21A7A8F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.junxf.timestash.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TimeStash;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43A82F5F78BFE1E8C144941D /* Build configuration list for PBXNativeTarget "TimeStash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				645FBDCDDD7CFDFEB3907A5F /* Debug */,
+				12E156870B9F1B37F954867F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5198BA84534D762046D28E5E /* Build configuration list for PBXNativeTarget "TimeStashWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26A7A198A286910DC606E8BC /* Debug */,
+				7B14736C88D2DAAC68661B7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7D7010AE58C19F45D0D49173 /* Build configuration list for PBXNativeTarget "TimeStashTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31BBC2B6DBFCB803C3ECBADD /* Debug */,
+				71D203273B3E0D058A083710 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8442BADB1C5CA08F4B5A5CD8 /* Build configuration list for PBXProject "TimeStash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				191D11086DB5B62C291EABC4 /* Debug */,
+				8540AF4B34ECBEBED7C03902 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EB25FE426B0B629315F3EAA2 /* Build configuration list for PBXNativeTarget "TimeStashUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E96EF2CB0ADCE96D21A7A8F3 /* Debug */,
+				4E3EA36C66E4C3422F8612AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD160E5DD071DAF086BBACA6 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		108256E27480C90ECF3B0906 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD160E5DD071DAF086BBACA6 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+		DA392937E4973CA8E21A311D /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD160E5DD071DAF086BBACA6 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = DE04D433C44BBAD86FEBBC28 /* Project object */;
+}
