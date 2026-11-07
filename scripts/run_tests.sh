@@ -43,7 +43,13 @@ fi
 echo $$ > "$LOCK/pid"
 trap 'rm -rf "$LOCK" 2>/dev/null' EXIT INT TERM
 
-LOG="/tmp/${APP}_test.log"
+# 每轮一个独立日志文件（2026-11-08 修）：
+# 之前所有轮次都写同一个 /tmp/<App>_test.log，后跑的覆盖先跑的 →
+# 拿到一份旧进程的「失败」通知时，磁盘上的日志已经不是它那一轮了，
+# 根本无法判断失败是旧代码还是真回归。
+# 现在每轮写 <App>_test_<时间戳>.log，/tmp/<App>_test.log 只是软链到最新一轮。
+STAMP=$(date +%Y%m%d-%H%M%S)
+LOG="/tmp/${APP}_test_${STAMP}.log"
 
 # 跑之前的崩溃基线
 CRASH_BEFORE=$(ls ~/Library/Logs/DiagnosticReports/${APP}-*.ips 2>/dev/null | wc -l | tr -d ' ')
@@ -100,3 +106,6 @@ grep -E "error:" "$LOG" | sed 's|.*/||' | sort -u | head -10
 grep -E "' failed|recorded an issue" "$LOG" | sed 's|.*/||' | head -8
 echo
 echo "完整日志：$LOG"
+
+# 软链指向最新一轮，方便习惯性路径访问
+ln -sf "$LOG" "/tmp/${APP}_test.log"
