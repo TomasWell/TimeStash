@@ -14,7 +14,19 @@ import XCTest
 /// 避免截出一堆空白页。
 final class ScreenshotCapture: XCTestCase {
 
-    private static let outputDir = "/Users/mac/TimeStash/store-assets/screenshots"
+    /// Where the PNGs land.
+    ///
+    /// ⚠️ 2026-11-08: this used to write straight into
+    /// `store-assets/screenshots` -- the folder that holds the **delivered**
+    /// store screenshots. Because this class is part of the UI test target,
+    /// every normal test run re-shot them, and on a smaller simulator
+    /// (iPhone 15 Pro = 1178x2556) that silently **replaced the shipped
+    /// 1290x2796 images with sizes the App Store does not accept**.
+    ///
+    /// Now the screenshots go to a scratch folder. The official ones are
+    /// produced by `scripts/make_store_screenshots.sh`, which pins the
+    /// simulator and the output path.
+    private static let outputDir = "/Users/mac/TimeStash/.screenshot-work"
 
     private var app: XCUIApplication!
 

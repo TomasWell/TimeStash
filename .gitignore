@@ -22,3 +22,6 @@ __pycache__/
 # i18n 翻译流水线的进度文件 —— 不进版本库
 .i18n-progress.json
 **/.i18n-progress.json
+
+# 截图用例的临时产物，不入 git（正式商店截图在 store-assets/screenshots/）
+.screenshot-work/
