@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		002BCA84CAA54AFE455F74C9 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FABD40AA468607D36305E4 /* Localization.swift */; };
+		00D4F2222C424F32A14AD9BD /* ScreenshotCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96C927E134F6EEAD0D3D243 /* ScreenshotCapture.swift */; };
 		04AFD5942AAB793F980C9F79 /* VaultRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DF8FA00F089AF19CE45392 /* VaultRepository.swift */; };
 		052700BB71825C27377F33CD /* VaultMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD7075D4D934D8F68D48AD6 /* VaultMathTests.swift */; };
 		060779966511EA4AA2FEE1C2 /* VaultFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12801D409C27D5EBC5A0568 /* VaultFlowUITests.swift */; };
@@ -288,6 +289,7 @@
 		D551E6C3E00F1DA727A443BA /* gu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = gu; path = gu.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7F4B7138CF1B5A30E8AB6BF /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8DF8FA00F089AF19CE45392 /* VaultRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultRepository.swift; sourceTree = "<group>"; };
+		D96C927E134F6EEAD0D3D243 /* ScreenshotCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCapture.swift; sourceTree = "<group>"; };
 		DA106C407F70AC9654CC0C17 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DDEEFFDFE57E840DB2AD8500 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DDF9F0FE2673BE6CCB2195EA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -413,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				4CC04E9A1281A035196F5A90 /* OnboardingUITests.swift */,
+				D96C927E134F6EEAD0D3D243 /* ScreenshotCapture.swift */,
 				5A2A0366AC768F1D50CB49D1 /* TabSwitchingUITests.swift */,
 				A12801D409C27D5EBC5A0568 /* VaultFlowUITests.swift */,
 			);
@@ -686,6 +689,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92F02EACF9B95D394C3D8D41 /* OnboardingUITests.swift in Sources */,
+				00D4F2222C424F32A14AD9BD /* ScreenshotCapture.swift in Sources */,
 				D1E925D0FCB6CA7A1C090D6D /* TabSwitchingUITests.swift in Sources */,
 				060779966511EA4AA2FEE1C2 /* VaultFlowUITests.swift in Sources */,
 			);

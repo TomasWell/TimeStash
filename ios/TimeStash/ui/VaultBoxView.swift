@@ -3,8 +3,14 @@ import SwiftUI
 /// The box that fills up as the user banks time.
 ///
 /// Drawn rather than shipped as an image so it can fill to any fraction and
-/// stay crisp in both light and dark mode. Each band is one hour of saved
-/// time — the texture is there to say "this was time you did not have to spend".
+/// stay crisp in both light and dark mode.
+///
+/// ⚠️ 2026-11-08：旧版用 `ZStack(alignment: .bottom)` + `offset` 定位，
+/// 结果**填充块和箱盖都掉到了框子外面** —— 商店截图里能看到一条蓝色横条
+/// 悬在框子底下（2026-11-08 截图实测）。根因：`ZStack` 的 `.bottom` 对齐
+/// 已经把子视图贴到底边，再叠一个 `offset` 就等于又推出去一次。
+/// 现在改成**显式 `.position(x:y:)` 定位**，每个部件的坐标都写死在
+/// 计算好的矩形里，不再依赖对齐 + 偏移的组合。
 struct VaultBoxView: View {
     let totalSeconds: Int
     /// Seconds that fill the box completely. Defaults to the next milestone.
@@ -16,75 +22,127 @@ struct VaultBoxView: View {
         return min(1, Double(totalSeconds) / Double(targetSeconds))
     }
 
-    private var fullHours: Int {
-        Int(Double(totalSeconds) / 3600.0)
+    /// How many hour-lines the box is divided into — one per hour of the
+    /// milestone the user is working towards.
+    private var bandCount: Int {
+        max(1, Int(ceil(Double(targetSeconds) / 3600.0)))
+    }
+
+    /// The shape of the box: a lid on top, a body below it.
+    private struct Layout {
+        let lid: CGRect
+        let body: CGRect
+    }
+
+    private func layout(width: CGFloat, height: CGFloat) -> Layout {
+        let inset: CGFloat = lineWidth + 5
+        let lidHeight: CGFloat = 22
+        let lidOverhang: CGFloat = 8
+        let body = CGRect(
+            x: inset,
+            y: lidHeight,
+            width: max(0, width - inset * 2),
+            height: max(0, height - lidHeight - inset)
+        )
+        let lid = CGRect(
+            x: max(0, body.minX - lidOverhang),
+            y: 2,
+            width: min(width, body.width + lidOverhang * 2),
+            height: lidHeight - 6
+        )
+        return Layout(lid: lid, body: body)
     }
 
     var body: some View {
         GeometryReader { geo in
             let width = geo.size.width
             let height = geo.size.height
-            let innerInset: CGFloat = lineWidth + 4
-            let inner = CGRect(
-                x: innerInset,
-                y: innerInset,
-                width: max(0, width - innerInset * 2),
-                height: max(0, height - innerInset * 2)
+            let box = layout(width: width, height: height)
+
+            // The banked time, filling from the bottom of the body.
+            let fillHeight = box.body.height * progress
+            let fillRect = CGRect(
+                x: box.body.minX,
+                y: box.body.maxY - fillHeight,
+                width: box.body.width,
+                height: fillHeight
             )
 
-            ZStack(alignment: .bottom) {
-                // The banked time, filling from the bottom.
+            ZStack {
+                // The inside of the box, so it reads as a container and not
+                // as an empty placeholder.
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.accentColor.opacity(0.06))
+                    .frame(width: box.body.width, height: box.body.height)
+                    .position(x: box.body.midX, y: box.body.midY)
+
+                // Hour lines, so the fill reads as countable time.
+                ForEach(1..<max(1, bandCount), id: \.self) { index in
+                    let fraction = CGFloat(index) / CGFloat(bandCount)
+                    Rectangle()
+                        .fill(Color.secondary.opacity(0.14))
+                        .frame(width: box.body.width, height: 1)
+                        .position(
+                            x: box.body.midX,
+                            y: box.body.minY + box.body.height * fraction
+                        )
+                }
+
+                // The banked time.
                 if progress > 0 {
-                    let fillHeight = inner.height * progress
                     Rectangle()
                         .fill(
                             LinearGradient(
-                                colors: [Color.accentColor.opacity(0.95), Color.accentColor.opacity(0.6)],
+                                colors: [
+                                    Color.accentColor.opacity(0.95),
+                                    Color.accentColor.opacity(0.62),
+                                ],
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
                         )
-                        .frame(width: inner.width, height: fillHeight)
+                        .frame(width: fillRect.width, height: fillRect.height)
                         .overlay(alignment: .top) {
-                            // Hour lines, so the fill reads as countable time.
-                            hourLines(in: inner, fillHeight: fillHeight)
+                            Rectangle()
+                                .fill(Color.white.opacity(0.35))
+                                .frame(height: 2)
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .offset(x: inner.minX, y: inner.maxY - fillHeight)
+                        .position(x: fillRect.midX, y: fillRect.midY)
                 }
 
-                // The empty part of the box.
-                RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(style: StrokeStyle(lineWidth: lineWidth, dash: progress > 0 ? [6, 5] : []))
-                    .foregroundStyle(Color.secondary.opacity(0.45))
-                    .padding(innerInset)
+                // The outline of the body.
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(
+                        style: StrokeStyle(
+                            lineWidth: lineWidth,
+                            dash: progress > 0 ? [7, 6] : []
+                        )
+                    )
+                    .foregroundStyle(Color.secondary.opacity(0.5))
+                    .frame(width: box.body.width, height: box.body.height)
+                    .position(x: box.body.midX, y: box.body.midY)
 
                 // The lid.
-                Rectangle()
-                    .fill(Color.secondary.opacity(0.45))
-                    .frame(width: inner.width + lineWidth * 2, height: lineWidth)
-                    .offset(x: inner.minX, y: inner.minY - lineWidth / 2)
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color.secondary.opacity(0.5))
+                    .frame(width: box.lid.width, height: box.lid.height)
+                    .position(x: box.lid.midX, y: box.lid.midY)
+
+                // The handle on the lid — this is what makes it read as a
+                // box rather than a bar.
+                RoundedRectangle(cornerRadius: 4)
+                    .strokeBorder(style: StrokeStyle(lineWidth: 3))
+                    .foregroundStyle(Color.secondary.opacity(0.5))
+                    .frame(width: 54, height: 12)
+                    .position(x: box.lid.midX, y: box.lid.midY - 3)
             }
             .frame(width: width, height: height)
         }
-        .aspectRatio(1.25, contentMode: .fit)
+        .aspectRatio(1.15, contentMode: .fit)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("vault_box_accessibility"))
         .accessibilityValue(Text(VaultFormat.duration(totalSeconds)))
-    }
-
-    /// Horizontal separators every hour of banked time.
-    private func hourLines(in rect: CGRect, fillHeight: CGFloat) -> some View {
-        let hours = max(1, Int(ceil(Double(fillHeight) / Double(rect.height) * Double(max(1, fullHours)))))
-        return VStack(spacing: 0) {
-            ForEach(0..<max(1, hours), id: \.self) { _ in
-                Rectangle()
-                    .fill(Color.white.opacity(0.18))
-                    .frame(height: 1)
-                Spacer(minLength: 0)
-            }
-        }
-        .frame(width: rect.width, height: fillHeight, alignment: .top)
     }
 }
 

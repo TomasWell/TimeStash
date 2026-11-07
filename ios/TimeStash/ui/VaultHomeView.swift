@@ -111,7 +111,11 @@ struct VaultHomeView: View {
         VStack(spacing: 2) {
             Text(value)
                 .font(.headline.monospacedDigit())
-            Text(title)
+            // NOTE: `title` is a String variable, so `Text(title)` uses the
+            // verbatim initializer and NEVER looks up the localization table --
+            // the screen prints the raw key "vault_today".
+            // Must look the key up explicitly. (Found by store screenshot, 2026-11-08.)
+            Text(L(title))
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }
