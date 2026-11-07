@@ -69,7 +69,10 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
         INFOPLIST_KEY_UIBackgroundModes: ""
         CODE_SIGN_ENTITLEMENTS: TimeStash/TimeStash.entitlements
-        PROVISIONING_PROFILE_SPECIFIER: TimeStash Distribution v5
+        # 门户 v4：2026-11-08 门户建 App ID + 关联 App Group 后由 ASC API 生成，
+        # 已核验 entitlements 含 com.apple.security.application-groups =
+        # group.com.junxf.timestash（v1/v2/v3 的 app-groups 数组是空的，别用）。
+        PROVISIONING_PROFILE_SPECIFIER: TimeStash Distribution v4
         CODE_SIGN_IDENTITY: "Apple Distribution"
         OTHER_CODE_SIGN_FLAGS: --timestamp --options runtime
     entitlements:
@@ -174,7 +177,7 @@ targets:
         SWIFT_EMIT_LOC_STRINGS: "YES"
         INFOPLIST_KEY_NSExtension: ""
         CODE_SIGN_ENTITLEMENTS: TimeStashWidget/TimeStashWidget.entitlements
-        PROVISIONING_PROFILE_SPECIFIER: TimeStashWidget Distribution v3
+        PROVISIONING_PROFILE_SPECIFIER: TimeStashWidget Distribution v4
         CODE_SIGN_IDENTITY: "Apple Distribution"
         OTHER_CODE_SIGN_FLAGS: --timestamp --options runtime
     entitlements:
