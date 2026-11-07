@@ -79,7 +79,7 @@
 "widget_saved_today" = "Täna";
 "widget_total" = "Kokku";
 "fmt_seconds" = "%d sek";
-"fmt_minutes" = "%d min";
+"fmt_minutes" = "%dmin";
 "fmt_minutes_seconds" = "%d min %d sek";
 "fmt_hours" = "%dt";
 "fmt_hours_minutes" = "%d t %d min";
@@ -87,3 +87,4 @@
 "fmt_compact_minutes" = "%dmin";
 "fmt_compact_hours" = "%dt";
 "fmt_compact_hours_minutes" = "%dt%dmin";
+"app_name" = "TimeStash";

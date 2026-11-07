@@ -79,11 +79,12 @@
 "widget_saved_today" = "Tänään";
 "widget_total" = "Yhteensä";
 "fmt_seconds" = "%d s";
-"fmt_minutes" = "%d min";
+"fmt_minutes" = "%dmin";
 "fmt_minutes_seconds" = "%d min %d s";
 "fmt_hours" = "%d t";
 "fmt_hours_minutes" = "%d t %d min";
 "fmt_compact_seconds" = "%d s";
-"fmt_compact_minutes" = "%d min";
+"fmt_compact_minutes" = "%dmin";
 "fmt_compact_hours" = "%d t";
 "fmt_compact_hours_minutes" = "%d t%d min";
+"app_name" = "TimeStash";

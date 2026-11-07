@@ -79,11 +79,12 @@
 "widget_saved_today" = "Aujourd’hui";
 "widget_total" = "Total";
 "fmt_seconds" = "%d s";
-"fmt_minutes" = "%d min";
+"fmt_minutes" = "%dmin";
 "fmt_minutes_seconds" = "%d min %d s";
 "fmt_hours" = "%d h";
 "fmt_hours_minutes" = "%d h %d min";
 "fmt_compact_seconds" = "%d s";
-"fmt_compact_minutes" = "%d min";
+"fmt_compact_minutes" = "%dmin";
 "fmt_compact_hours" = "%d h";
 "fmt_compact_hours_minutes" = "%d h %d min";
+"app_name" = "TimeStash";

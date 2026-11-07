@@ -87,3 +87,4 @@
 "fmt_compact_minutes" = "%d मि";
 "fmt_compact_hours" = "%d घं";
 "fmt_compact_hours_minutes" = "%d घं%d मि";
+"app_name" = "TimeStash";

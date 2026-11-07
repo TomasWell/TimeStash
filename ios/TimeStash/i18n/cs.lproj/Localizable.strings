@@ -79,7 +79,7 @@
 "widget_saved_today" = "Dnes";
 "widget_total" = "Celkem";
 "fmt_seconds" = "%d s";
-"fmt_minutes" = "%d min";
+"fmt_minutes" = "%dmin";
 "fmt_minutes_seconds" = "%d min %d s";
 "fmt_hours" = "%dh";
 "fmt_hours_minutes" = "%dh %d min";
@@ -87,3 +87,4 @@
 "fmt_compact_minutes" = "%dmin";
 "fmt_compact_hours" = "%dh";
 "fmt_compact_hours_minutes" = "%dh%dmin";
+"app_name" = "TimeStash";

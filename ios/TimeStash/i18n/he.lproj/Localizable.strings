@@ -87,3 +87,4 @@
 "fmt_compact_minutes" = "%dדק׳";
 "fmt_compact_hours" = "%dשע׳";
 "fmt_compact_hours_minutes" = "%dשע׳%dדק׳";
+"app_name" = "TimeStash";
