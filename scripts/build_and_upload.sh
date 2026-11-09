@@ -14,12 +14,12 @@ export PATH=$HOME/.blitz/bin:$PATH
 export ASC_TIMEOUT=600s
 export HTTPS_PROXY=http://127.0.0.1:7890
 export HTTP_PROXY=http://127.0.0.1:7890
-APP=6820045336
+APP="${APP:-6832234671}"
 BUNDLE=com.junxf.timestash
 TEAM=QLJ5YWNC2W
 DD=~/TimeStash/ios/DerivedData
 OUT=~/TimeStash/build
-IPA="$OUT/TimeStash-1.0.1-build6.ipa"
+IPA="$OUT/TimeStash-1.0-build9.ipa"
 
 cd ~/TimeStash/ios || exit 1
 mkdir -p "$OUT"
@@ -28,7 +28,7 @@ echo "== 0. 确认 build 号 =="
 grep -nE 'MARKETING_VERSION|CURRENT_PROJECT_VERSION' project.yml | head -4
 
 echo "== 1. archive =="
-xcodebuild archive \
+xcodegen generate >/dev/null && xcodebuild archive \
   -project TimeStash.xcodeproj -scheme TimeStash \
   -configuration Release \
   -destination "generic/platform=iOS" \
@@ -71,16 +71,12 @@ ls -la "$IPA" | awk '{print "  ipa: " $5 " bytes"}'
 echo "  根目录条目: $(unzip -l "$IPA" 2>/dev/null | awk 'NR>3 && NF==4 {print $4}' | head -1)"
 
 echo "== 4. 上传 =="
-# ⚠️ --version 必须与 .ipa 内的 CFBundleShortVersionString 一致：
-#    ASC 版本槽「1.0」已被 build 2 占用，再传 1.0 会报 90072 版本号冲突；
-#    build 3 起 marketing version 是 1.0.1，新 build 必须沿用 1.0.1。
-# ⚠️ --build-number 必须是**下一个没被占用的号**（2026-11-07 实测：
-#    ASC 上 build 7 已上传（2026-11-06）且挂在 1.0 槽审核中 → 再传 7 会冲突）。
-#    build 8 = build 7 + App Shortcuts（长按图标快捷菜单）+ UI 守卫。
+# ⚠️ --version 必须与 .ipa 内的 CFBundleShortVersionString 一致（现为 1.0，project.yml 的 MARKETING_VERSION）——
+#    不一致会被 Apple 拒（ITMS-90345 Metadata/Info.plist Mismatch ✅）。
 asc builds upload --app "$APP" \
   --ipa "$IPA" \
-  --version "1.0.1" \
-  --build-number "8" 2>&1 | tail -14
+  --version "1.0" \
+  --build-number "9" 2>&1 | tail -14
 
 echo "== 5. 回读上传状态 =="
 asc builds uploads list --app "$APP" 2>/dev/null | python3 -c "
