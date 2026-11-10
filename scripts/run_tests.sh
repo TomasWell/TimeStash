@@ -61,8 +61,19 @@ xcodebuild test -project ${APP}.xcodeproj -scheme ${APP} \
   -derivedDataPath ./DerivedData > "$LOG" 2>&1
 
 echo "=== 1. 测试结果 ==="
-grep -oE 'TEST (SUCCEEDED|FAILED)' "$LOG" | tail -1
+# ⚠️ 2026-11-11 06:0x 实测修掉的**假绿**：原来这一段只是把 TEST SUCCEEDED/FAILED
+# 打印出来，**从不据此决定退出码** → 测试有失败用例时脚本照样 exit 0。
+# 现在把结果存进变量，最后统一判退出码（崩溃/失败 → 非 0）。
+RESULT=$(grep -oE 'TEST (SUCCEEDED|FAILED)' "$LOG" | tail -1)
+echo "$RESULT"
 grep -E "Executed [0-9]+ test|Test run with [0-9]+ test" "$LOG" | tail -2
+TEST_FAIL=0
+if [ "$RESULT" != "TEST SUCCEEDED" ]; then
+  # 「查不到 ≠ 没有」：RESULT 为空（xcodebuild 异常退出、只列了设备）也算失败，
+  # 不能当成「跑完了」。这与下面「用例数 > 0」是同一道保险。
+  echo "⛔ 测试结果不是 TEST SUCCEEDED（实际：${RESULT:-<没读到>}）—— **按失败算**"
+  TEST_FAIL=1
+fi
 
 echo
 echo "=== 2. 用例数校验（防假成功）==="
@@ -94,6 +105,11 @@ CRASH_AFTER=$(ls ~/Library/Logs/DiagnosticReports/${APP}-*.ips 2>/dev/null | wc 
 NEW=$((CRASH_AFTER - CRASH_BEFORE))
 if [ "$NEW" -gt 0 ]; then
   echo "⛔ 本轮新增 $NEW 份崩溃报告 —— **即使测试框架说通过，也按失败算**"
+  # ⚠️ 2026-11-11 06:0x 实测修掉的**假绿**：原来这一行只是打印警告，
+  # 脚本最后仍然 exit 0 → 「跑全量测试」的上层（提审前测试闸门）据此判 PASS
+  # → **一个崩过的包会被提给 Apple**（DailyMe 2.1.0 就是这么被拒的）。
+  # 现在记下失败标记，最后统一 exit 非 0。
+  CRASH_FAIL=1
   python3 ~/.hermes/nightwork/crash_summary.py --app "$APP" --window-min 10 2>&1 | head -30
   echo "--- 真凶定位：崩溃栈里出现的函数名就是出问题的位置 ---"
 else
@@ -106,6 +122,14 @@ grep -E "error:" "$LOG" | sed 's|.*/||' | sort -u | head -10
 grep -E "' failed|recorded an issue" "$LOG" | sed 's|.*/||' | head -8
 echo
 echo "完整日志：$LOG"
+
+# ── 退出码：崩溃 / 测试失败 → 非 0（2026-11-11 06:0x 实测修） ──
+# ⚠️ 这三道校验（用例数 > 0 / 崩溃检查 / 测试结果）以前**只打印不拦**，
+# 上层只看退出码 → 全部假绿。现在统一在这里拦。
+if [ "${CRASH_FAIL:-0}" -gt 0 ] || [ "${TEST_FAIL:-0}" -gt 0 ]; then
+  echo "⛔ 本轮判定为失败（崩溃=${CRASH_FAIL:-0} 测试结果=${TEST_FAIL:-0}）—— 退出码非 0"
+  exit 1
+fi
 
 # 软链指向最新一轮，方便习惯性路径访问
 ln -sf "$LOG" "/tmp/${APP}_test.log"
