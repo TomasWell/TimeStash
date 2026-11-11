@@ -19,7 +19,7 @@ BUNDLE=com.junxf.timestash
 TEAM=QLJ5YWNC2W
 DD=~/TimeStash/ios/DerivedData
 OUT=~/TimeStash/build
-IPA="$OUT/TimeStash-1.0-build9.ipa"
+IPA="$OUT/TimeStash-1.0-build11.ipa"
 
 cd ~/TimeStash/ios || exit 1
 mkdir -p "$OUT"
@@ -76,7 +76,7 @@ echo "== 4. 上传 =="
 asc builds upload --app "$APP" \
   --ipa "$IPA" \
   --version "1.0" \
-  --build-number "9" 2>&1 | tail -14
+  --build-number "11" 2>&1 | tail -14
 
 echo "== 5. 回读上传状态 =="
 asc builds uploads list --app "$APP" 2>/dev/null | python3 -c "
