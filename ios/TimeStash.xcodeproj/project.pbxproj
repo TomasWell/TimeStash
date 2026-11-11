@@ -27,6 +27,7 @@
 		60BA4DB7D3EE7A8009719ABE /* VaultTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1E640236322CD330317AD5 /* VaultTask.swift */; };
 		667D71ABFDF1DC09D7A92DE2 /* VaultNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5AFC05EE7B5C439E14D7B4 /* VaultNotifier.swift */; };
 		7014594E6791C60E0EF8C727 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E4F02C29C32459114BF2F22 /* InfoPlist.strings */; };
+		712371A1555C69E8773A6501 /* URLConstructionGuardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD00829FE4AAEB015049618 /* URLConstructionGuardTests.swift */; };
 		7455B64AA6D817A6B88EDFE0 /* VaultRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DF8FA00F089AF19CE45392 /* VaultRepository.swift */; };
 		824A7577C41B7E57355E1E2E /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A9CFF10C2CE9303E897BE8 /* OnboardingView.swift */; };
 		87B905672F4F1AD46D9C1799 /* VaultRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0785A82F9556E02280C9DA3F /* VaultRepositoryTests.swift */; };
@@ -268,6 +269,7 @@
 		B89210776AD2E3776801A49D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B9FABD40AA468607D36305E4 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		BA8D333F147FD5837510B0B4 /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BAD00829FE4AAEB015049618 /* URLConstructionGuardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstructionGuardTests.swift; sourceTree = "<group>"; };
 		C22DE668D977195DD24C0677 /* bn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bn; path = bn.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C3F44A87057E1703295C2AE5 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C75F9769E238850C4718F475 /* TimeStash.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TimeStash.entitlements; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 		B32F55CC58379CD0E49F09C0 /* TimeStashTests */ = {
 			isa = PBXGroup;
 			children = (
+				BAD00829FE4AAEB015049618 /* URLConstructionGuardTests.swift */,
 				CDD7075D4D934D8F68D48AD6 /* VaultMathTests.swift */,
 				0785A82F9556E02280C9DA3F /* VaultRepositoryTests.swift */,
 			);
@@ -722,6 +725,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				712371A1555C69E8773A6501 /* URLConstructionGuardTests.swift in Sources */,
 				052700BB71825C27377F33CD /* VaultMathTests.swift in Sources */,
 				87B905672F4F1AD46D9C1799 /* VaultRepositoryTests.swift in Sources */,
 			);

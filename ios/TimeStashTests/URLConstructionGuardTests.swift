@@ -27,6 +27,13 @@ final class URLConstructionGuardTests: XCTestCase {
         for case let f as URL in e where f.pathExtension == "swift" {
             let p = f.path
             if p.contains("/DerivedData/") || p.contains("/.build/") || p.contains("/SourcePackages/") { continue }
+            // ⛔ 必须跳过**测试目录**，否则这个守卫会把自己扫进去：
+            //    断言消息里写着字面量 `URL(string: ...)!`，
+            //    会被自己的正则匹配上 → 每次都误报「源码里有强制解包」。
+            //    （2026-11-11 实测：TimeStash 首次跑这个守卫就是被自己误报卡红的，
+            //      而产品代码里其实一处都没有。）
+            //    守卫的对象是**产品代码**——测试代码里的 URL 构造不会让用户崩溃。
+            if p.contains("/Tests/") || p.contains("/UITests/") || p.hasSuffix("Tests.swift") { continue }
             out.append(f)
         }
         return out
