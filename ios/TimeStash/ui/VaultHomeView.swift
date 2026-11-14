@@ -179,14 +179,14 @@ struct VaultHomeView: View {
 
     private var recentSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("vault_recent")
+            Text(L("vault_recent"))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             let deposits = store.tasks.filter { $0.savedSeconds > 0 }.prefix(5)
 
             if deposits.isEmpty {
-                Text("vault_empty_hint")
+                Text(L("vault_empty_hint"))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)

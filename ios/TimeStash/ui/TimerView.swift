@@ -76,7 +76,7 @@ struct TimerView: View {
                 Spacer(minLength: 0)
 
                 if isOverEstimate {
-                    Text("timer_over_estimate")
+                    Text(L("timer_over_estimate"))
                         .font(.footnote)
                         .foregroundStyle(.orange)
                 } else {
@@ -120,7 +120,7 @@ struct TimerView: View {
                     Button {
                         showQuitConfirm = true
                     } label: {
-                        Text("timer_give_up")
+                        Text(L("timer_give_up"))
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -149,7 +149,7 @@ struct TimerView: View {
     private var estimateRow: some View {
         HStack {
             VStack(spacing: 2) {
-                Text("timer_estimate")
+                Text(L("timer_estimate"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                 Text(VaultFormat.duration(task?.estimatedSeconds ?? 0))
@@ -162,7 +162,7 @@ struct TimerView: View {
                 .foregroundStyle(.tertiary)
             Spacer()
             VStack(spacing: 2) {
-                Text("timer_used")
+                Text(L("timer_used"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                 Text(VaultFormat.duration(elapsed))

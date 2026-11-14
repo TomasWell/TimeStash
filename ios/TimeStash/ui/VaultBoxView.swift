@@ -141,7 +141,7 @@ struct VaultBoxView: View {
         }
         .aspectRatio(1.15, contentMode: .fit)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text("vault_box_accessibility"))
+        .accessibilityLabel(Text(L("vault_box_accessibility")))
         .accessibilityValue(Text(VaultFormat.duration(totalSeconds)))
     }
 }

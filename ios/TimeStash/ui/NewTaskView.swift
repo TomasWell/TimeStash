@@ -54,7 +54,7 @@ struct NewTaskView: View {
 
                     Stepper(value: $estimateMinutes, in: 1...480, step: 5) {
                         HStack {
-                            Text("new_task_estimate")
+                            Text(L("new_task_estimate"))
                             Spacer()
                             Text("\(estimateMinutes) min")
                                 .foregroundStyle(.secondary)
@@ -62,7 +62,7 @@ struct NewTaskView: View {
                         }
                     }
                 } footer: {
-                    Text("new_task_estimate_footer")
+                    Text(L("new_task_estimate_footer"))
                 }
             }
             .navigationTitle("new_task_title")

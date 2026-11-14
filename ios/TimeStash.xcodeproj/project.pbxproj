@@ -19,6 +19,7 @@
 		16E64DC9B6B2DA808BC0EACB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7377B8D197F13FA150475FFA /* Localizable.strings */; };
 		25057DA9B85F6634090363D1 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A2BE23F8A04D59B8428207 /* AppDatabase.swift */; };
 		25A35DD5E37E14A83DF4D379 /* VaultTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1E640236322CD330317AD5 /* VaultTask.swift */; };
+		303435F6832510FB37ADA7F7 /* LocalizationGuardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081EC23B445093A4CE28B826 /* LocalizationGuardTests.swift */; };
 		46E9A8FB4C70DB03B56E6B21 /* VaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E1BD2C2543A402251FFA74 /* VaultStore.swift */; };
 		4BE371655B937D671064C047 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = DA392937E4973CA8E21A311D /* GRDB */; };
 		50B486D50DB121F2F820C96D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD455D0C0CEE30838F753578 /* Localizable.strings */; };
@@ -96,6 +97,7 @@
 		0785A82F9556E02280C9DA3F /* VaultRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultRepositoryTests.swift; sourceTree = "<group>"; };
 		07973B58C565A5475F99297F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
 		081C9D4546AB9C00C7D75159 /* VaultHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultHomeView.swift; sourceTree = "<group>"; };
+		081EC23B445093A4CE28B826 /* LocalizationGuardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationGuardTests.swift; sourceTree = "<group>"; };
 		08C89E86910A0918333B60E2 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08F7265B0B89DF436B78A6FD /* is */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0908E3BBFE041C4F404056CA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 		B32F55CC58379CD0E49F09C0 /* TimeStashTests */ = {
 			isa = PBXGroup;
 			children = (
+				081EC23B445093A4CE28B826 /* LocalizationGuardTests.swift */,
 				BAD00829FE4AAEB015049618 /* URLConstructionGuardTests.swift */,
 				CDD7075D4D934D8F68D48AD6 /* VaultMathTests.swift */,
 				0785A82F9556E02280C9DA3F /* VaultRepositoryTests.swift */,
@@ -725,6 +728,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				303435F6832510FB37ADA7F7 /* LocalizationGuardTests.swift in Sources */,
 				712371A1555C69E8773A6501 /* URLConstructionGuardTests.swift in Sources */,
 				052700BB71825C27377F33CD /* VaultMathTests.swift in Sources */,
 				87B905672F4F1AD46D9C1799 /* VaultRepositoryTests.swift in Sources */,

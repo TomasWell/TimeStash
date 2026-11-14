@@ -39,12 +39,12 @@ struct StatsView: View {
 
     private var trendCard: some View {
         card {
-            Text("stats_trend_title")
+            Text(L("stats_trend_title"))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             if series.allSatisfy({ $0.seconds == 0 }) {
-                Text("stats_trend_empty")
+                Text(L("stats_trend_empty"))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -78,12 +78,12 @@ struct StatsView: View {
 
     private var categoryCard: some View {
         card {
-            Text("stats_category_title")
+            Text(L("stats_category_title"))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             if categoryData.isEmpty {
-                Text("stats_category_empty")
+                Text(L("stats_category_empty"))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -123,7 +123,7 @@ struct StatsView: View {
     private var milestoneCard: some View {
         let progress = store.milestones
         return card {
-            Text("stats_milestone_title")
+            Text(L("stats_milestone_title"))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
 

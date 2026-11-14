@@ -53,10 +53,10 @@ struct OnboardingView: View {
             Image(systemName: "clock.badge.questionmark")
                 .font(.system(size: 62))
                 .foregroundStyle(.tint)
-            Text("onboarding_1_title")
+            Text(L("onboarding_1_title"))
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
-            Text("onboarding_1_body")
+            Text(L("onboarding_1_body"))
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
@@ -106,12 +106,12 @@ struct OnboardingView: View {
         VStack(spacing: 18) {
             Spacer()
 
-            Text("onboarding_3_title")
+            Text(L("onboarding_3_title"))
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
 
             if experienceTaskID == nil {
-                Text("onboarding_3_body")
+                Text(L("onboarding_3_body"))
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)
@@ -119,7 +119,7 @@ struct OnboardingView: View {
                 Button {
                     startExperience()
                 } label: {
-                    Text("onboarding_3_try")
+                    Text(L("onboarding_3_try"))
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
@@ -140,7 +140,7 @@ struct OnboardingView: View {
                     Button {
                         finishExperience()
                     } label: {
-                        Text("onboarding_3_finish")
+                        Text(L("onboarding_3_finish"))
                             .font(.headline)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
@@ -165,10 +165,10 @@ struct OnboardingView: View {
             Image(systemName: "target")
                 .font(.system(size: 56))
                 .foregroundStyle(.tint)
-            Text("onboarding_4_title")
+            Text(L("onboarding_4_title"))
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
-            Text("onboarding_4_body")
+            Text(L("onboarding_4_body"))
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
@@ -199,7 +199,7 @@ struct OnboardingView: View {
                 Button {
                     withAnimation { page += 1 }
                 } label: {
-                    Text("onboarding_next")
+                    Text(L("onboarding_next"))
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
@@ -212,7 +212,7 @@ struct OnboardingView: View {
                     store.baselineEstimateSeconds = baselineMinutes * 60
                     onFinish()
                 } label: {
-                    Text("onboarding_start")
+                    Text(L("onboarding_start"))
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
