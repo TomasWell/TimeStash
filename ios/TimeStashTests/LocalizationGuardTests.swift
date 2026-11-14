@@ -19,7 +19,7 @@ import Testing
 struct LocalizationGuardTests {
 
     /// 源码根目录（本测试 target 与源码同级）
-    private static var sourceRoot: URL {
+    private var sourceRoot: URL {
         // .../ios/TimeStashTests/LocalizationGuardTests.swift → .../ios/TimeStash
         URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()   // TimeStashTests
@@ -28,7 +28,7 @@ struct LocalizationGuardTests {
     }
 
     /// 收集源码里所有 `Text("...")` 的字面量参数
-    private static func literalTextKeys() -> [(file: String, line: Int, key: String)] {
+    private func literalTextKeys() -> [(file: String, line: Int, key: String)] {
         var out: [(String, Int, String)] = []
         guard let enumerator = FileManager.default.enumerator(
             at: sourceRoot, includingPropertiesForKeys: nil
@@ -37,9 +37,9 @@ struct LocalizationGuardTests {
         for case let url as URL in enumerator where url.pathExtension == "swift" {
             let path = url.path
             guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
-            let lines = text.components(separatedBy: .newlines)
+            let lines = text.components(separatedBy: "\n")
             for (idx, line) in lines.enumerated() {
-                let trimmed = line.trimmingCharacters(in: .whitespaces)
+                let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
                 // 跳过注释
                 if trimmed.hasPrefix("//") || trimmed.hasPrefix("*") { continue }
                 // 匹配 Text("literal") —— 只取 snake_case 形态（本地化 key 的特征）
@@ -56,7 +56,7 @@ struct LocalizationGuardTests {
     }
 
     /// 读取某个 locale 的 Localizable.strings 里所有 key
-    private static func keys(inLocalizationDirectory dir: URL) -> Set<String> {
+    private func keys(inLocalizationDirectory dir: URL) -> Set<String> {
         var keys = Set<String>()
         for file in ["Localizable.strings", "InfoPlist.strings"] {
             let url = dir.appendingPathComponent(file)
@@ -76,7 +76,7 @@ struct LocalizationGuardTests {
     /// ① 界面层不许把 key 直接写进 Text()
     @Test("界面层不许出现 Text(\"snake_case_key\") —— 必须走 L()")
     func noLiteralLocalizationKeysInText() {
-        let hits = Self.literalTextKeys()
+        let hits = literalTextKeys()
         if !hits.isEmpty {
             let detail = hits
                 .map { "\($0.file):\($0.line)  Text(\"\($0.key)\")" }
@@ -105,7 +105,7 @@ struct LocalizationGuardTests {
         let appCandidates = candidates.filter { $0.path.contains("/TimeStash/i18n/") }
         let pool = appCandidates.isEmpty ? candidates : appCandidates
         let zh = pool.first { $0.lastPathComponent == "zh-Hans.lproj" } ?? pool[0]
-        let available = Self.keys(inLocalizationDirectory: zh)
+        let available = keys(inLocalizationDirectory: zh)
         #expect(!available.isEmpty, "Localizable.strings 一个 key 都没解析到 —— 解析器坏了")
 
         // 扫源码里所有 L("key") 调用
