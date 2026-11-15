@@ -317,7 +317,26 @@ def main():
                 print("     删 %-28s %s %s" % (fname, "OK" if ok else "FAIL", "" if ok else msg[:90]))
                 if not ok:
                     del_fail.append((fname, msg))
-            time.sleep(2)
+            # ⚠️⚠️ 2026-11-16 P0 又一个坑：Apple 的**删除是异步的**。
+            #   DELETE 返回 204（成功），但资源还在 set 里没真正移除；
+            #   脚本 sleep 2 就开始传 → Apple 报
+            #   `screenshots upload: Too many screenshots.: Set: <id>`
+            #   （旧 10 张还在 + 传新图 = 超 10 张上限）→ 整批传不上去。
+            #   ⇒ 必须**轮询回读**，等 set 里的张数真的降下来再传。
+            for _wait in range(30):
+                time.sleep(3)
+                if len(iphone_shots(tok, lid)) == 0:
+                    print("     删已生效（set 清空，用了约 %d 秒）" % ((_wait + 1) * 3))
+                    break
+            else:
+                left = iphone_shots(tok, lid)
+                print("     ⚠️ 等了 90 秒 set 里还有 %d 张 → 不上传（会撞上限）" % len(left))
+                progress[loc] = {"uploaded": 0, "total": len(files),
+                                 "at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                                 "error": "delete_not_effective"}
+                json.dump(progress, open(PROGRESS, "w"), ensure_ascii=False, indent=1)
+                continue
+
             if del_fail:
                 print("  ⛔ %-8s 旧图删除失败 %d 张 → 跳过本 locale（继续传会造成重复轮播）" % (loc, len(del_fail)))
                 print("     典型原因：版本已挂在 submission 上 → 需先 `asc review items-remove` 摘下版本条目")
