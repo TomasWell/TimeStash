@@ -51,9 +51,12 @@ struct LedgerView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
-                        Button("ledger_filter_all") { filter = nil }
+                        // ⚠️ 必须走 L()：SwiftUI 的 `Button("category_\(rawValue)")`
+                        // 会把插值后的**格式串**当 key 查表 → 查不到 → 菜单项直接显示
+                        // `category_work` 原文（2026-11-16 P0 机械取证发现）。
+                        Button(L("ledger_filter_all")) { filter = nil }
                         ForEach(VaultCategory.allCases) { c in
-                            Button("category_\(c.rawValue)") { filter = c }
+                            Button(L("category_\(c.rawValue)")) { filter = c }
                         }
                     } label: {
                         Label("ledger_filter", systemImage: "line.3.horizontal.decrease.circle")

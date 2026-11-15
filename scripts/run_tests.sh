@@ -89,15 +89,22 @@ echo "=== 2. 用例数校验（防假成功）==="
 #     实测 TimeStash：单测 56 个 + UI 测试 1 个，tail -1 只拿到 1。
 # 所以 XCTest 取所有 Executed 行里的**最大值**（每个 bundle 的总数行）
 # 再加上 swift-testing 的汇总（两者可能并存）。
-COUNT=$(grep -oE 'Test run with [0-9]+ test' "$LOG" | grep -oE '[0-9]+' | head -1)
-[ -z "$COUNT" ] && COUNT=$(grep -oE 'Executed [0-9]+ tests?' "$LOG" | grep -oE '[0-9]+' | sort -rn | head -1)
-if [ -z "$COUNT" ] || [ "$COUNT" = "0" ]; then
+# ⚠️ 2026-11-16 P0 修正计数口径：原来 swift-testing 的汇总一旦存在就直接 return，
+# **XCTest 的用例数被整个丢掉** → 实测 TimeStash 跑完 52 个用例（XCTest 49 + swift 3），
+# 脚本却报「实际执行了 3 个用例」→ **提审前测试闸门据此判「用例太少」或看错基线**。
+# 现在两个框架的用例数**相加**（swift-testing 汇总 + XCTest 各 bundle 的最大值）。
+ST_COUNT=$(grep -oE 'Test run with [0-9]+ test' "$LOG" | grep -oE '[0-9]+' | head -1)
+XC_COUNT=$(grep -oE 'Executed [0-9]+ tests?' "$LOG" | grep -oE '[0-9]+' | sort -rn | head -1)
+[ -z "$ST_COUNT" ] && ST_COUNT=0
+[ -z "$XC_COUNT" ] && XC_COUNT=0
+COUNT=$((ST_COUNT + XC_COUNT))
+if [ "$COUNT" = "0" ]; then
   echo "⛔ 没看到任何用例执行 —— xcodebuild 多半只列了设备就退出了（模拟器环境异常），**这一轮不算数**"
   echo "   处置：xcrun simctl shutdown ${DEV} && xcrun simctl erase ${DEV}，然后重跑"
   tail -20 "$LOG"
   exit 2
 fi
-echo "✅ 实际执行了 $COUNT 个用例"
+echo "✅ 实际执行了 $COUNT 个用例（swift-testing $ST_COUNT + XCTest $XC_COUNT）"
 
 echo
 echo "=== 3. 崩溃检查 ==="

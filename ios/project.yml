@@ -49,14 +49,20 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.junxf.timestash
         CODE_SIGN_STYLE: Manual
         MARKETING_VERSION: "1.0"
-        # build 6 = build 5 + 本档的 i18n 补键 + 设置页语言选择器 + 两条守卫。
-        # ⚠️ marketing version 沿用 1.0.1（**不**升 1.0.2）：1.0.1 的 build 5
-        # 已上传但版本槽还没建，本档的改动应该跟它一起进 1.0.1 那一次提审，
-        # 而不是白白多占一个小版本号（一个 App 每周最多一个小版本号）。
-        # 仓库既有先例：build 3/4/5 共用 marketing 1.0.1，只递增 build 号。
-        # build 8 = build 7 + App Shortcuts（长按图标快捷菜单）+ UI 守卫
-        # ⚠️ build 7 已于 2026-11-06 上传并挂在 1.0 槽审核中 → 下一个可用号是 8
-        CURRENT_PROJECT_VERSION: "12"
+        # build 12 = 11-14 的 i18n 修复（33 处界面直接显示本地化 key），
+        # 2026-11-15 21:01 提交审核后被 Apple 拒审（state=UNRESOLVED_ISSUES）。
+        #
+        # build 13 = build 12 + 2026-11-16 P0 拒审修复：
+        #   ① 筛选菜单 `Button("category_\(rawValue)")` 运行时拼 key
+        #      → 所有语言下显示 `category_work` 原文（LedgerView.swift:56）
+        #   ② 守卫扩面：只扫 Text 不扫 Button/Label + 新增「运行时拼 key」守卫
+        #   ③ DemoSeed 的 20 条任务名改走本地化键（原为中文硬编码）
+        #      → 一份种子数据能出 48 个语言的商店页（2.3.3）
+        #   ④ 截图模式跳过系统通知授权弹窗（原会盖住整个计时界面，2.3.3）
+        #   ⑤ run_tests.sh 用例数口径修正（swift-testing + XCTest 相加）
+        # ⚠️ marketing version 沿用 1.0（**不**升 1.0.1）：被拒后原地重提，
+        #    Apple 同一时间只有一个可编辑版本槽，且实测 verId 不变。
+        CURRENT_PROJECT_VERSION: "13"
         GENERATE_INFOPLIST_FILE: "YES"
         INFOPLIST_KEY_CFBundleDisplayName: TimeStash
         DEVELOPMENT_LANGUAGE: zh-Hans
@@ -171,7 +177,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.junxf.timestash.widget
         CODE_SIGN_STYLE: Manual
         MARKETING_VERSION: "1.0"
-        CURRENT_PROJECT_VERSION: "12"
+        # ⚠️ 扩展包版本号必须与主 App 一致（否则上传报 90345 版本不一致）
+        CURRENT_PROJECT_VERSION: "13"
         GENERATE_INFOPLIST_FILE: "YES"
         DEVELOPMENT_LANGUAGE: zh-Hans
         SWIFT_EMIT_LOC_STRINGS: "YES"

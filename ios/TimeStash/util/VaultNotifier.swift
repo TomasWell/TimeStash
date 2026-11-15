@@ -26,6 +26,17 @@ enum VaultNotifier {
     private static let hasAskedKey = "vault.hasAskedNotificationPermission"
 
     static func requestPermissionIfNeeded() async {
+        #if DEBUG
+        // 商店页截图模式：跳过通知授权请求。
+        //
+        // ⚠️ 2026-11-16 P0 机械取证：系统通知授权弹窗会盖住整个计时界面
+        // （商店页截图 04/10 里能看到「"时间收纳箱"想给你发送通知」弹窗）
+        // → Guideline 2.3.3「截图须展示 App 实际使用状态」会被判不实。
+        // 正式包（Release）没有这个分支，真机用户的正常授权流程不受影响。
+        if ProcessInfo.processInfo.arguments.contains("-TS_SHOT_NO_NOTIFICATION") {
+            return
+        }
+        #endif
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: hasAskedKey) { return }
         defaults.set(true, forKey: hasAskedKey)

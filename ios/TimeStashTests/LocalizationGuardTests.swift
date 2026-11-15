@@ -42,8 +42,12 @@ struct LocalizationGuardTests {
                 let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
                 // 跳过注释
                 if trimmed.hasPrefix("//") || trimmed.hasPrefix("*") { continue }
-                // 匹配 Text("literal") —— 只取 snake_case 形态（本地化 key 的特征）
-                let pattern = #"Text\(\s*"([a-z][a-z0-9]*_[a-z0-9_]+)"\s*\)"#
+                // ⚠️ 2026-11-16 P0 扩面：原来只扫 `Text("literal")`，
+                // 漏掉了 `Button("literal")` / `Label("literal")` —— 而这两个
+                // 同样是 LocalizedStringKey 初始化器，查不到 key 就显示 key 原文。
+                // 实证：LedgerView 的筛选菜单 `Button("category_\(c.rawValue)")`
+                // 在所有语言下都显示 `category_work` 原文（11-14 那次 33 处修复漏网）。
+                let pattern = #"(?:Text|Button|Label|TextField|Toggle|Link|Picker)\(\s*"([a-z][a-z0-9]*_[a-z0-9_]+)"\s*\)"#
                 guard let re = try? NSRegularExpression(pattern: pattern) else { continue }
                 let ns = line as NSString
                 for match in re.matches(in: line, range: NSRange(location: 0, length: ns.length)) {
@@ -82,6 +86,45 @@ struct LocalizationGuardTests {
                 .map { "\($0.file):\($0.line)  Text(\"\($0.key)\")" }
                 .joined(separator: "\n    ")
             Issue.record("界面层有 \(hits.count) 处直接显示本地化 key（用户会看到 key 本身）：\n    \(detail)")
+        }
+    }
+
+    /// ③ 界面层不许「运行时拼 key」—— `Button("category_\(rawValue)")`
+    ///
+    /// 起因（2026-11-16 P0 机械取证）：筛选菜单用
+    /// `Button("category_\(c.rawValue)")` → SwiftUI 把它当 LocalizedStringKey，
+    /// 查表用的是**格式串** `category_%` → 查不到 → **所有语言下都显示
+    /// `category_work` 原文**（11-14 那次「33 处界面显示 key」的修复漏掉了它，
+    /// 因为那次守卫只扫 `Text("字面量")`）。
+    ///
+    /// 判据：字面量里出现 `snake_case_` 前缀**且**后面跟着插值 → 一定是拼 key。
+    @Test("界面层不许运行时拼 key（Button/Label/Text(\"prefix_\\(...)））")
+    func noRuntimeBuiltLocalizationKeys() {
+        // 只在主 App 目录扫（Widget 是独立 target，没有 L()，写法合法）
+        let components = ["Text", "Button", "Label", "TextField", "Toggle", "Link", "Picker"]
+        let componentPattern = components.joined(separator: "|")
+        // 字面量里先出现 `word_`，后面又有插值 → 拼 key
+        let pattern = "(?:\(componentPattern))\\(\\s*\"([a-z][a-z0-9]*_[^\"]*\\\\\\()"
+
+        var hits: [String] = []
+        if let enumerator = FileManager.default.enumerator(
+            at: sourceRoot, includingPropertiesForKeys: nil
+        ) {
+            for case let url as URL in enumerator where url.pathExtension == "swift" {
+                guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
+                for (idx, line) in text.components(separatedBy: "\n").enumerated() {
+                    let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if trimmed.hasPrefix("//") || trimmed.hasPrefix("*") { continue }
+                    guard let re = try? NSRegularExpression(pattern: pattern) else { continue }
+                    let ns = line as NSString
+                    for match in re.matches(in: line, range: NSRange(location: 0, length: ns.length)) {
+                        hits.append("\(url.lastPathComponent):\(idx + 1)  \(trimmed)")
+                    }
+                }
+            }
+        }
+        if !hits.isEmpty {
+            Issue.record("界面层有 \(hits.count) 处运行时拼 key（界面会显示 key 原文）：\n    \(hits.joined(separator: "\n    "))")
         }
     }
 

@@ -14,6 +14,41 @@ import XCTest
 /// 避免截出一堆空白页。
 final class ScreenshotCapture: XCTestCase {
 
+    /// 读 App 内某个本地化 key 的当前语言文案（UI test 是独立 target，
+    /// 拿不到主 App 的 `L()` 函数，所以自己读 .strings）。
+    ///
+    /// ⚠️ 2026-11-16 P0：截图里的示例任务名必须跟界面语言一致，
+    /// 否则换语言拍商店页时会出现「英文界面夹中文」= 2.3.3 / 2.3.7 风险。
+    /// 查不到就退回英文基准（`en.lproj`），**绝不显示 key 本身**。
+    static func L_forUITest(_ key: String) -> String {
+        let i18nDir = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()   // TimeStashUITests
+            .deletingLastPathComponent()   // ios
+            .appendingPathComponent("TimeStash/i18n")
+        let lang = ProcessInfo.processInfo.environment["TS_SHOT_LANG"] ?? "zh-Hans"
+
+        // 候选：当前语言 → 去掉地区码 → en
+        var candidates = [lang]
+        if lang.contains("-") { candidates.append(String(lang.split(separator: "-")[0])) }
+        candidates.append("en")
+
+        for loc in candidates {
+            let f = i18nDir.appendingPathComponent("\(loc).lproj/Localizable.strings")
+            guard let text = try? String(contentsOf: f, encoding: .utf8) else { continue }
+            for line in text.components(separatedBy: "\n") {
+                let t = line.trimmingCharacters(in: .whitespaces)
+                guard t.hasPrefix("\"\(key)\"") else { continue }
+                guard let eq = t.firstIndex(of: "=") else { continue }
+                let rhs = t[t.index(after: eq)...].trimmingCharacters(in: .whitespaces)
+                guard rhs.hasPrefix("\""), rhs.hasSuffix("\";"),
+                      rhs.count >= 3 else { continue }
+                let value = String(rhs.dropFirst().dropLast(2))
+                if !value.isEmpty { return value }
+            }
+        }
+        return key
+    }
+
     /// Where the PNGs land.
     ///
     /// ⚠️ 2026-11-08: this used to write straight into
@@ -37,9 +72,20 @@ final class ScreenshotCapture: XCTestCase {
             withIntermediateDirectories: true
         )
         app = XCUIApplication()
+        // 商店页多语言截图：语言由环境变量传入（默认 zh-Hans）。
+        //
+        // ⚠️ 2026-11-16 P0：原来写死 zh-Hans → 48 个 locale 的商店页
+        // 全部共用这一套中文截图（ASC 实测：10 个 checksum 被 48 locale 共用，
+        // 零专属图）→ 违反 Guideline 2.3.3（截图须展示该 locale 的实际界面）。
+        //
+        // ⚠️ `-TS_SHOT_NO_NOTIFICATION` 必须带：系统通知授权弹窗会盖住
+        // 整个计时界面（商店页截图 04/10 里能看到那个弹窗）→ 同样违反 2.3.3。
+        let lang = ProcessInfo.processInfo.environment["TS_SHOT_LANG"] ?? "zh-Hans"
+        let locale = ProcessInfo.processInfo.environment["TS_SHOT_LOCALE"] ?? "zh_CN"
         app.launchArguments = [
-            "-AppleLanguages", "(zh-Hans)",
-            "-AppleLocale", "zh_CN",
+            "-AppleLanguages", "(\(lang))",
+            "-AppleLocale", locale,
+            "-TS_SHOT_NO_NOTIFICATION",
         ]
     }
 
@@ -122,7 +168,10 @@ final class ScreenshotCapture: XCTestCase {
         let titleField = app.textFields["newTaskTitleField"]
         XCTAssertTrue(titleField.waitForExistence(timeout: 12), "任务标题输入框没出现")
         titleField.tap()
-        titleField.typeText("写周报")
+        // ⚠️ 2026-11-16 P0：不能写死中文「写周报」——
+        // 换语言拍商店页时，这一栏会露出中文 = 英文界面夹中文（2.3.3/2.3.7）。
+        // 用与 App 内种子数据同一个本地化键，各语言自动对上。
+        titleField.typeText(L_forUITest("demo_task_report"))
         capture("09-new-task")
 
         let chip = app.buttons["estimateChip15"]

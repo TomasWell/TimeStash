@@ -39,35 +39,43 @@ extension VaultRepository {
     /// The mix matters: mostly ahead of time (that is the product's story),
     /// a few overruns (so the ledger shows the honest "over" badge too), and
     /// one long task that pushes the total past the first two milestones.
+    ///
+    /// ⚠️ 2026-11-16 P0：任务名**必须走本地化键**（`demo_task_*`），不能写死中文。
+    /// 写死中文的后果：换语言拍商店页时，账本/统计页里全是中文条目
+    /// → **英文界面夹中文** = Guideline 2.3.3（截图须展示 App 实际使用状态）
+    /// + 2.3.7（本地化不完整）双重风险。CommutePilot 早就用同一套路
+    /// （`L("event_wake")`），一份数据出 43 个语言。
     func seedDemoHistory() {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
 
-        // (day offset, title, category, estimate minutes, actual minutes)
+        // (day offset, 本地化 key, category, estimate minutes, actual minutes)
         let plan: [(Int, String, VaultCategory, Int, Int)] = [
-            (13, "写周报", .work, 30, 18),
-            (13, "晨跑", .life, 30, 26),
-            (12, "读一章书", .study, 45, 40),
-            (11, "整理文件", .work, 60, 35),
-            (10, "回邮件", .work, 15, 9),
-            (9, "做饭", .life, 40, 52),
-            (8, "背单词", .study, 20, 12),
-            (8, "写方案", .work, 90, 55),
-            (7, "打扫房间", .life, 60, 41),
-            (6, "改代码", .work, 120, 84),
-            (5, "看电影", .life, 120, 118),
-            (4, "列清单", .work, 20, 11),
-            (4, "复习", .study, 45, 27),
-            (3, "打电话", .other, 10, 7),
-            (2, "写文档", .work, 60, 32),
-            (2, "跑步", .life, 30, 21),
-            (1, "学新工具", .study, 60, 38),
-            (1, "准备会议", .work, 30, 16),
-            (0, "写需求", .work, 45, 24),
-            (0, "做拉伸", .life, 15, 10)
+            (13, "demo_task_report", .work, 30, 18),
+            (13, "demo_task_run", .life, 30, 26),
+            (12, "demo_task_read", .study, 45, 40),
+            (11, "demo_task_tidy", .work, 60, 35),
+            (10, "demo_task_email", .work, 15, 9),
+            (9, "demo_task_cook", .life, 40, 52),
+            (8, "demo_task_words", .study, 20, 12),
+            (8, "demo_task_plan", .work, 90, 55),
+            (7, "demo_task_clean", .life, 60, 41),
+            (6, "demo_task_code", .work, 120, 84),
+            (5, "demo_task_movie", .life, 120, 118),
+            (4, "demo_task_list", .work, 20, 11),
+            (4, "demo_task_review", .study, 45, 27),
+            (3, "demo_task_call", .other, 10, 7),
+            (2, "demo_task_doc", .work, 60, 32),
+            (2, "demo_task_jog", .life, 30, 21),
+            (1, "demo_task_learn", .study, 60, 38),
+            (1, "demo_task_meeting", .work, 30, 16),
+            (0, "demo_task_spec", .work, 45, 24),
+            (0, "demo_task_stretch", .life, 15, 10)
         ]
 
-        for (dayOffset, title, category, estimateMinutes, actualMinutes) in plan {
+        for (dayOffset, titleKey, category, estimateMinutes, actualMinutes) in plan {
+            // 查不到就退回英文基准（宁可英文，也不要把 key 本身显示给用户）
+            let title = L(titleKey)
             let day = calendar.date(byAdding: .day, value: -dayOffset, to: today) ?? today
             let started = day.addingTimeInterval(TimeInterval(9 * 3600))
             let finished = started.addingTimeInterval(TimeInterval(actualMinutes * 60))
