@@ -1010,7 +1010,7 @@
 				CODE_SIGN_ENTITLEMENTS = TimeStash/TimeStash.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TimeStash/Info.plist;
@@ -1104,7 +1104,7 @@
 				CODE_SIGN_ENTITLEMENTS = TimeStashWidget/TimeStashWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TimeStashWidget/Info.plist;
@@ -1166,7 +1166,7 @@
 				CODE_SIGN_ENTITLEMENTS = TimeStash/TimeStash.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TimeStash/Info.plist;
@@ -1212,7 +1212,7 @@
 				CODE_SIGN_ENTITLEMENTS = TimeStashWidget/TimeStashWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TimeStashWidget/Info.plist;
