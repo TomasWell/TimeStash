@@ -20,12 +20,25 @@ final class ScreenshotCapture: XCTestCase {
     /// ⚠️ 2026-11-16 P0：截图里的示例任务名必须跟界面语言一致，
     /// 否则换语言拍商店页时会出现「英文界面夹中文」= 2.3.3 / 2.3.7 风险。
     /// 查不到就退回英文基准（`en.lproj`），**绝不显示 key 本身**。
+    ///
+    /// ⚠️ 语言码从**启动参数**读（`-TS_SHOT_LANG`），不读环境变量 ——
+    /// 实测 `ProcessInfo.environment` 在 XCUITest 里拿不到 xcodebuild
+    /// 传下来的环境变量（读到空 → 回落 en → 界面是德语但输入框里是英文）。
+    static func shotLanguage() -> String {
+        let args = ProcessInfo.processInfo.arguments
+        if let i = args.firstIndex(of: "-TS_SHOT_LANG"), i + 1 < args.count {
+            let v = args[i + 1]
+            if !v.isEmpty && !v.hasPrefix("-") { return v }
+        }
+        return "zh-Hans"
+    }
+
     static func L_forUITest(_ key: String) -> String {
         let i18nDir = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()   // TimeStashUITests
             .deletingLastPathComponent()   // ios
             .appendingPathComponent("TimeStash/i18n")
-        let lang = ProcessInfo.processInfo.environment["TS_SHOT_LANG"] ?? "zh-Hans"
+        let lang = shotLanguage()
 
         // 候选：当前语言 → 去掉地区码 → en
         var candidates = [lang]
@@ -78,13 +91,22 @@ final class ScreenshotCapture: XCTestCase {
         // 全部共用这一套中文截图（ASC 实测：10 个 checksum 被 48 locale 共用，
         // 零专属图）→ 违反 Guideline 2.3.3（截图须展示该 locale 的实际界面）。
         //
+        // ⚠️⚠️ 覆盖语言的参数形式（实测踩了两种错法）：
+        //   ① `-AppleLanguages (zh-Hans)`（老式 UserDefaults 写法）→ **无效**，
+        //      Bundle.main 的语言协商不认它 → 拍出来仍是中文。
+        //   ② 只改系统级 NSGlobalDomain AppleLanguages → **也无效**，
+        //      因为 App 用 `NSLocalizedString` 默认 bundle，XCUITest 里
+        //      App 进程的环境由测试宿主决定，改全局域不改变它的语言协商。
+        //   ✅ **正确形式 = iOS 标准的 `-app_language <code>`**，
+        //      且必须作为**真启动参数**传给 App 进程（`launchArguments`），
+        //      与 CommutePilot 的成熟做法一致（`simctl launch ... -app_language de`）。
+        //
         // ⚠️ `-TS_SHOT_NO_NOTIFICATION` 必须带：系统通知授权弹窗会盖住
         // 整个计时界面（商店页截图 04/10 里能看到那个弹窗）→ 同样违反 2.3.3。
-        let lang = ProcessInfo.processInfo.environment["TS_SHOT_LANG"] ?? "zh-Hans"
-        let locale = ProcessInfo.processInfo.environment["TS_SHOT_LOCALE"] ?? "zh_CN"
+        let lang = Self.shotLanguage()
         app.launchArguments = [
-            "-AppleLanguages", "(\(lang))",
-            "-AppleLocale", locale,
+            "-app_language", lang,
+            "-TS_SHOT_LANG", lang,
             "-TS_SHOT_NO_NOTIFICATION",
         ]
     }
@@ -171,7 +193,7 @@ final class ScreenshotCapture: XCTestCase {
         // ⚠️ 2026-11-16 P0：不能写死中文「写周报」——
         // 换语言拍商店页时，这一栏会露出中文 = 英文界面夹中文（2.3.3/2.3.7）。
         // 用与 App 内种子数据同一个本地化键，各语言自动对上。
-        titleField.typeText(L_forUITest("demo_task_report"))
+        titleField.typeText(Self.L_forUITest("demo_task_report"))
         capture("09-new-task")
 
         let chip = app.buttons["estimateChip15"]

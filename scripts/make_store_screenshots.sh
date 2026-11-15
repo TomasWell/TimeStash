@@ -96,18 +96,37 @@ check_sizes() {
 }
 
 # 拍一个 locale 的 10 张图 → $2（输出目录）
+#
+# ⚠️ 语言切换必须走**系统级** AppleLanguages（NSGlobalDomain），
+#    启动参数 -AppleLanguages **对 Bundle.main 的语言协商无效**。
+#    原因：App 的 L() 用 NSLocalizedString 默认 bundle = Bundle.main，
+#    而 Bundle.main 的语言由系统级 NSGlobalDomain 的 AppleLanguages 决定
+#    （2026-11-10 DailyMe 实测过；2026-11-16 TimeStash 再次实测确认：
+#     只传 -AppleLanguages 启动参数 → 拍出来仍是中文）。
+#    且改完语言**必须重启模拟器**才生效（2026-11-16 实测：改完直接拍仍是旧语言）。
 shoot_locale() {
   local asc_locale="$1" app_lang="$2" sys_locale="$3" dest="$4"
   mkdir -p "$dest"
 
   echo "=== 拍 ${asc_locale}（App 内语言 ${app_lang}）==="
+
+  # ① 设系统语言 → ② 重启模拟器让它生效 → ③ 拍
+  xcrun simctl shutdown "$SIM" >/dev/null 2>&1 || true
+  sleep 3
+  xcrun simctl boot "$SIM" >/dev/null 2>&1 || true
+  xcrun simctl bootstatus "$SIM" -b >/dev/null 2>&1 || true
+  xcrun simctl spawn "$SIM" defaults write NSGlobalDomain AppleLanguages -array "$app_lang" >/dev/null 2>&1
+  xcrun simctl spawn "$SIM" defaults write NSGlobalDomain AppleLocale -string "$sys_locale" >/dev/null 2>&1
+  # 语言改完必须重启（App 启动时读一次系统语言）
+  xcrun simctl shutdown "$SIM" >/dev/null 2>&1 || true
+  sleep 3
+  xcrun simctl boot "$SIM" >/dev/null 2>&1 || true
+  xcrun simctl bootstatus "$SIM" -b >/dev/null 2>&1 || true
+
   rm -rf "$WORK"
   mkdir -p "$WORK"
   cd "$APP_DIR/ios" || return 1
 
-  # ⚠️ 语言靠 -AppleLanguages 启动参数切换（改 App domain 的 AppleLanguages
-  #    对 Bundle.main 的语言协商不生效 —— 2026-11-10 DailyMe 实测）。
-  #    这里由 ScreenshotCapture.swift 读 TS_SHOT_LANG 环境变量传入。
   TS_SHOT_LANG="$app_lang" TS_SHOT_LOCALE="$sys_locale" \
   xcodebuild test \
     -project TimeStash.xcodeproj \
