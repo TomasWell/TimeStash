@@ -203,16 +203,51 @@ def main():
     print("ASC locale 数: %d" % len(locs))
 
     if args.verify:
+        # ⚠️⚠️ 2026-11-16 P0：原来的 --verify **只比数量**，漏掉了真正的问题。
+        #   实测 fi=8/hr=9/hu=9 时数量不等，确实被抓到；但「ASC 10 张 + 本地 10 张」
+        #   **数量相等却内容是旧图**这种情况完全抓不到 → 正是 da/el 假绿的漏网处。
+        #   ⇒ 现在逐张比对 **checksum（ASC）vs md5（本地）**。
         bad = 0
+        cs_owner = {}
+        detail = []
         for lid, loc in locs:
             sh = iphone_shots(tok, lid)
             d = local_dir_for(loc)
-            n_local = len([f for f in os.listdir(d) if f.endswith(".png")]) if d else 0
-            flag = "✅" if len(sh) == n_local and n_local >= 5 else "⚠️"
-            if flag == "⚠️":
+            files = sorted(f for f in os.listdir(d) if f.endswith(".png")) if d else []
+            n_local = len(files)
+            asc_cs = {}
+            for sid, fname in sh:
+                # iphone_shots 只回 (id, fileName)；这里再取一次 checksum
+                pass
+            sets = api("/v1/appStoreVersionLocalizations/%s/appScreenshotSets?limit=20" % lid, tok)
+            for st_ in sets.get("data", []):
+                dt = (st_.get("attributes") or {}).get("screenshotDisplayType") or ""
+                if not dt.startswith("APP_IPHONE"):
+                    continue
+                for x in api("/v1/appScreenshotSets/%s/appScreenshots?limit=100" % st_["id"], tok).get("data", []):
+                    a = x.get("attributes") or {}
+                    cs = (a.get("sourceFileChecksum") or "").lower()
+                    asc_cs[a.get("fileName")] = cs
+                    if cs:
+                        cs_owner.setdefault(cs, set()).add(loc)
+            match = sum(1 for f in files
+                        if asc_cs.get(f) and asc_cs[f] == md5(os.path.join(d, f)))
+            ok_loc = (n_local >= 10 and len(sh) == n_local and match == n_local)
+            if not ok_loc:
                 bad += 1
-            print("  %s %-8s ASC %2d 张 / 本地 %2d 张" % (flag, loc, len(sh), n_local))
-        print("异常 locale 数: %d" % bad)
+            detail.append((ok_loc, loc, len(sh), n_local, match))
+            print("  %s %-8s ASC %2d 张 / 本地 %2d 张 / checksum 一致 %2d/%d"
+                  % ("✅" if ok_loc else "⛔", loc, len(sh), n_local, match, n_local))
+        shared = {c: v for c, v in cs_owner.items() if len(v) > 1}
+        print("\n== 汇总 ==")
+        print("异常 locale 数: %d / %d" % (bad, len(locs)))
+        print("跨 locale 共用的 checksum 数: %d" % len(shared))
+        for c, v in sorted(shared.items(), key=lambda kv: -len(kv[1]))[:10]:
+            print("   %s -> %d 个 locale: %s" % (c[:10], len(v), " ".join(sorted(v))))
+        if bad == 0 and not shared:
+            print("\n✅ 全部 locale 的截图都与本地一致，且没有任何跨 locale 复用。")
+        else:
+            print("\n⛔ 仍未达标 —— 上面标 ⛔ 的 locale 需要重传；共用 checksum 的 locale 说明图没换成功。")
         return
 
     def has_local(loc):
