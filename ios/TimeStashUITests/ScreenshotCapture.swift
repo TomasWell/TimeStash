@@ -21,14 +21,20 @@ final class ScreenshotCapture: XCTestCase {
     /// 否则换语言拍商店页时会出现「英文界面夹中文」= 2.3.3 / 2.3.7 风险。
     /// 查不到就退回英文基准（`en.lproj`），**绝不显示 key 本身**。
     ///
-    /// ⚠️ 语言码从**启动参数**读（`-TS_SHOT_LANG`），不读环境变量 ——
-    /// 实测 `ProcessInfo.environment` 在 XCUITest 里拿不到 xcodebuild
-    /// 传下来的环境变量（读到空 → 回落 en → 界面是德语但输入框里是英文）。
+    /// ⚠️ 语言码从**文件**读，不读环境变量也不读启动参数 ——
+    ///   ① UITest 进程的 arguments 是 xcodebuild 的，不是 App 的 launchArguments
+    ///      → UITest 侧读不到 App 的启动参数；
+    ///   ② xcodebuild test **不把 shell 环境变量传给测试进程**
+    ///      → ProcessInfo.environment 读到空。
+    ///   ③ App 进程的环境变量（launchEnvironment）只有 App 自己能读到，
+    ///      UITest 进程读不到。
+    ///   ⇒ 唯一两边都能拿到的通道 = **磁盘文件**（脚本写、UITest 读）。
+    static let shotLanguageFile = "/tmp/timestash_shot_lang"
+
     static func shotLanguage() -> String {
-        let args = ProcessInfo.processInfo.arguments
-        if let i = args.firstIndex(of: "-TS_SHOT_LANG"), i + 1 < args.count {
-            let v = args[i + 1]
-            if !v.isEmpty && !v.hasPrefix("-") { return v }
+        if let s = try? String(contentsOfFile: Self.shotLanguageFile, encoding: .utf8) {
+            let v = s.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !v.isEmpty { return v }
         }
         return "zh-Hans"
     }
@@ -106,8 +112,15 @@ final class ScreenshotCapture: XCTestCase {
         let lang = Self.shotLanguage()
         app.launchArguments = [
             "-app_language", lang,
-            "-TS_SHOT_LANG", lang,
             "-TS_SHOT_NO_NOTIFICATION",
+        ]
+        // ⚠️ UITest 进程自己的 arguments 是 xcodebuild 的，不是 App 的
+        //    launchArguments → UITest 侧读不到 App 的启动参数。
+        //    所以语言码同时用**环境变量**传给 App 进程（launchEnvironment），
+        //    App 内 DemoSeed / L() 都能读到 → 种子任务名跟着界面语言走。
+        app.launchEnvironment = [
+            "TS_SHOT_LANG": lang,
+            "AppleLanguages": "(\(lang))",
         ]
     }
 

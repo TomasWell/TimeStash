@@ -127,6 +127,11 @@ shoot_locale() {
   mkdir -p "$WORK"
   cd "$APP_DIR/ios" || return 1
 
+  # ⚠️ 语言码走**文件**传给 UITest：xcodebuild test 不把 shell 环境变量
+  #    传给测试进程，UITest 进程也读不到 App 的 launchArguments
+  #    → 只有磁盘文件是两边都能拿到的通道（详见 ScreenshotCapture.swift 的说明）。
+  printf '%s' "$app_lang" > /tmp/timestash_shot_lang
+
   TS_SHOT_LANG="$app_lang" TS_SHOT_LOCALE="$sys_locale" \
   xcodebuild test \
     -project TimeStash.xcodeproj \
