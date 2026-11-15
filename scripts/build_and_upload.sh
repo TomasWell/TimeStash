@@ -107,21 +107,22 @@ echo "== 6. 加密豁免（必做 + 必须回读，否则 doctor 报 blocking）
 # ⚠️ 只设标志不够：build 7 上传后这个键整个不存在 → doctor 报 build.encryption.missing
 #    → 提不了审。所以设完必须**回读确认**，不能只看命令返回。
 # 纯本地 App + Apple 标准框架 → 豁免，无需 PDF 声明。
+# ⚠️⚠️ `asc builds list` 的 attributes.version 字段是 **build 号**（13），
+#    **不是** marketing version（1.0）！原来按 version=="$MV" 过滤 → 永远找不到
+#    → 脚本每次都报「还没找到 VALID 的 build」，豁免步骤被静默跳过。
+#    这里按 **build 号**（$CV）过滤。
 sleep 20
 BID=$(asc builds list --app "$APP" --output json 2>/dev/null | python3 -c "
 import json,sys
 d=json.load(sys.stdin)
 items=d if isinstance(d,list) else d.get('data',[])
-best=None
 for b in items:
     a=b.get('attributes',{})
-    if a.get('version')=='$MV' and a.get('processingState')=='VALID':
-        if best is None or int(a.get('version',0))>int(best['attributes'].get('version',0)):
-            best=b
-print(best['id'] if best else '')
+    if a.get('version')=='$CV' and a.get('processingState')=='VALID':
+        print(b['id']); break
 ")
 if [ -n "$BID" ]; then
-  asc builds update --build-id "$BID" --uses-non-exempt-encryption=false 2>&1 | tail -3
+  asc builds update --build-id "$BID" --uses-non-exempt-encryption=false 2>&1 | tail -2
   echo "  回读 usesNonExemptEncryption:"
   asc builds list --app "$APP" --output json 2>/dev/null | python3 -c "
 import json,sys
@@ -129,10 +130,10 @@ d=json.load(sys.stdin)
 items=d if isinstance(d,list) else d.get('data',[])
 for b in items:
     a=b.get('attributes',{})
-    if a.get('version')=='$MV':
+    if a.get('version')=='$CV':
         print('    build', a.get('version'), 'processingState=', a.get('processingState'),
               'usesNonExemptEncryption=', a.get('usesNonExemptEncryption'), 'id=', b.get('id'))
 "
 else
-  echo "  ⚠️ 还没找到 VALID 的 build ${MV}，稍后重跑这一步"
+  echo "  ⚠️ 还没找到 VALID 的 build $CV，稍后重跑这一步"
 fi
