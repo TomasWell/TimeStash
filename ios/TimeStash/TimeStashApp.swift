@@ -19,6 +19,12 @@ struct TimeStashApp: App {
         if ProcessInfo.processInfo.arguments.contains("-resetVaultData") {
             try? VaultRepository().deleteAllTasks()
         }
+        // 巡检空态屏用：清库之后连「引导页里的体验任务」残留也一并清掉。
+        // （deleteAllTasks 已清任务表；这里额外把 onboarding 标记复原，
+        //   防上一轮启动写过 hasCompletedOnboarding=true 被参数域盖不掉。）
+        if ProcessInfo.processInfo.arguments.contains("-resetOnboarding") {
+            UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+        }
     }
 
     var body: some Scene {
@@ -47,7 +53,9 @@ struct RootView: View {
 
     var body: some View {
         Group {
-            if hasCompletedOnboarding || DemoSeed.isSkippingOnboarding {
+            // DebugShot.forcesOnboarding：巡检要截引导 4 屏 ——
+            // 用路由强制停在引导页，不依赖「没走过引导」这个状态。
+            if hasCompletedOnboarding || DemoSeed.isSkippingOnboarding && !DebugShot.forcesOnboarding {
                 MainTabView()
             } else {
                 OnboardingView {
@@ -75,6 +83,12 @@ struct MainTabView: View {
             StatsView()
                 .tabItem { Label("tab_stats", systemImage: "chart.bar.xaxis") }
                 .tag(2)
+        }
+        .onAppear {
+            // 巡检路由：直接落在指定 Tab（见 util/DebugShot.swift）。
+            if let idx = DebugShot.tabIndex {
+                selection = idx
+            }
         }
     }
 }

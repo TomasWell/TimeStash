@@ -56,7 +56,7 @@ struct NewTaskView: View {
                         HStack {
                             Text(L("new_task_estimate"))
                             Spacer()
-                            Text("\(estimateMinutes) min")
+                            Text(VaultFormat.compactDuration(estimateMinutes * 60))
                                 .foregroundStyle(.secondary)
                                 .monospacedDigit()
                         }

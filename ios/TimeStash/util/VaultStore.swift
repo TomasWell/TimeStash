@@ -15,9 +15,17 @@ final class VaultStore: ObservableObject {
     @Published private(set) var elapsedSeconds: Int = 0
     /// The task that just went into the vault, used to fire the celebration.
     @Published var lastDeposit: VaultTask?
-    /// A task that was still running when the app was last closed. The home
+    /// A task that was still running when the app was killed. The home
     /// screen asks the user whether to keep going.
     @Published private(set) var recoverableTask: VaultTask?
+
+    /// 巡检路由 `resume` 用：把当前 running 任务摆成「上次没关就退了」的现场。
+    /// 生产代码不调用（detectRecoverableTask 只在冷启动问一次）。
+    func debugMakeRecoverable() {
+        if let running = runningTask {
+            recoverableTask = running
+        }
+    }
 
     /// The user's own idea of how long a typical task takes — set on the
     /// last onboarding screen, used as the default estimate from then on.

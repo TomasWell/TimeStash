@@ -38,6 +38,12 @@ struct OnboardingView: View {
 
             footer
         }
+        .onAppear {
+            // 巡检路由：直接落在指定引导页（见 util/DebugShot.swift）。
+            if DebugShot.forcesOnboarding {
+                page = DebugShot.onboardingPageIndex
+            }
+        }
         .onReceive(tick) { _ in
             if experienceTaskID != nil {
                 experienceElapsed += 1
@@ -174,7 +180,8 @@ struct OnboardingView: View {
                 .foregroundStyle(.secondary)
 
             VStack {
-                Text("\(baselineMinutes) min")
+                // ⚠️ 不能硬编码 "min"（2026-11-16 巡检：zh-Hans 界面混入英文单位）。
+                Text(VaultFormat.compactDuration(baselineMinutes * 60))
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .monospacedDigit()
                 Slider(value: Binding(

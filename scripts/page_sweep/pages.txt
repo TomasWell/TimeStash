@@ -1,0 +1,32 @@
+# 时间收纳箱 · 全页面巡检清单
+# 格式：名字|启动参数（空格分隔）|该屏必须出现的关键词（OCR 文本里要有）
+#
+# ⚠️ 路由名必须和 ios/TimeStash/util/DebugShot.swift 的 knownRoutes 完全一致 ——
+#    守卫测试 DebugShotRouteGuardTests 会核对（写错名字 = 那一屏永远截不到，
+#    而脚本会报「全过」→ 假绿）。
+#
+# ⚠️ 带种子的屏用 -seedDemoHistory -skipOnboarding（灌两周演示数据再进主界面）；
+#    空态屏不带种子（-skipOnboarding 直接进）。
+#    种子标题是中文（写周报/晨跑…）⇒ 界面语言用 zh-Hans，避免中英混排误报。
+#
+# ⚠️ 第三列关键词 = 防「这一屏没被真正打开」（budget/liabilities 同图事故）。
+#    必须选首屏不滚动就稳定出现的文案（标题/按钮/空态句），从真实 OCR 输出里挑。
+#
+# —— 引导 4 屏 ——
+onboarding_p1|-app_language zh-Hans -TS_SHOT_ROUTE onboarding0|你今天又拖
+onboarding_p2|-app_language zh-Hans -TS_SHOT_ROUTE onboarding1|继续
+onboarding_p3|-app_language zh-Hans -TS_SHOT_ROUTE onboarding2|试一分钟
+onboarding_p4|-app_language zh-Hans -TS_SHOT_ROUTE onboarding3|开始收纳
+# —— 主 Tab（种子数据）——
+tab_vault|-app_language zh-Hans -skipOnboarding -seedDemoHistory -TS_SHOT_ROUTE vault|收纳箱
+tab_ledger|-app_language zh-Hans -skipOnboarding -seedDemoHistory -TS_SHOT_ROUTE ledger|时间账本
+tab_stats|-app_language zh-Hans -skipOnboarding -seedDemoHistory -TS_SHOT_ROUTE stats|里程碑
+# —— 空状态（无种子，带 -resetVaultData 清掉前屏灌入的种子）——
+tab_vault_empty|-app_language zh-Hans -skipOnboarding -resetVaultData -TS_SHOT_ROUTE vaultEmpty|还没有
+tab_ledger_empty|-app_language zh-Hans -skipOnboarding -resetVaultData -TS_SHOT_ROUTE ledgerEmpty|还没有
+tab_stats_empty|-app_language zh-Hans -skipOnboarding -resetVaultData -TS_SHOT_ROUTE statsEmpty|里程碑
+# —— 弹层 ——
+sheet_new_task|-app_language zh-Hans -skipOnboarding -seedDemoHistory -TS_SHOT_ROUTE newTask|要做的事
+sheet_timer|-app_language zh-Hans -skipOnboarding -seedDemoHistory -TS_SHOT_ROUTE timer|提前完成
+sheet_timer_paused|-app_language zh-Hans -skipOnboarding -seedDemoHistory -TS_SHOT_ROUTE timerPaused|已暂停
+alert_resume|-app_language zh-Hans -skipOnboarding -seedDemoHistory -TS_SHOT_ROUTE resume|还在做

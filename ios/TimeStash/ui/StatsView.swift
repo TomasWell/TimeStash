@@ -58,6 +58,16 @@ struct StatsView: View {
                     .foregroundStyle(Color.accentColor.gradient)
                     .cornerRadius(3)
                 }
+                .chartXAxis {
+                    // ⚠️ 默认轴标签在 zh-Hans 下会挤成「11月..」被截断（2026-11-16 巡检）。
+                    // 日期值本身已按天聚合，只留网格线，标签由 Swift Charts
+                    // 自动抽稀（我们改用短格式 + 限宽）。
+                    AxisMarks(values: .stride(by: .day, count: 3)) { _ in
+                        AxisGridLine()
+                        AxisValueLabel(format: .dateTime.month(.abbreviated).day())
+                            .font(.caption2)
+                    }
+                }
                 .chartYAxis {
                     AxisMarks { value in
                         AxisGridLine()
@@ -92,9 +102,12 @@ struct StatsView: View {
                 Chart(categoryData, id: \.category) { item in
                     BarMark(
                         x: .value("seconds", item.seconds),
-                        y: .value("category", item.category.rawValue)
+                        // ⚠️ 轴值/图例用 rawValue（英文）会让中文界面整列变英文
+                        // （2026-11-16 巡检：zh-Hans 界面显示 work/study/life/other）。
+                        // 分类的显示名必须走本地化表。
+                        y: .value("category", L("category_\(item.category.rawValue)"))
                     )
-                    .foregroundStyle(by: .value("category", item.category.rawValue))
+                    .foregroundStyle(by: .value("category", L("category_\(item.category.rawValue)")))
                     .annotation(position: .trailing, alignment: .leading) {
                         Text(VaultFormat.compactDuration(item.seconds))
                             .font(.caption2)

@@ -78,6 +78,62 @@ struct VaultHomeView: View {
             } message: { task in
                 Text(L("resume_body", task.title))
             }
+            .onAppear {
+                // 巡检钩子必须延后：App.task（灌种子 + refresh）在 onAppear
+                // 之后才跑 —— 立刻读 store.tasks 会拿到空数组，sheet 开了个
+                // 「任务不存在」的计时页（截到空标题却报全过）。
+                let route = DebugShot.route
+                if route == "newTask" || route == "timer" || route == "timerPaused" || route == "resume" {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                        openDebugSheetIfNeeded()
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Debug sweep hooks
+
+    /// 巡检路由：newTask / timer / timerPaused / resume（见 util/DebugShot.swift）。
+    /// 必须等 store 真的加载完再开 sheet —— 否则 sheet 里的任务还不存在，
+    /// 截到的是「任务标题空白」的计时页。
+    ///
+    /// ⚠️ startTask 只认 planned/paused —— 种子数据全是 finished，
+    /// 直接重开一条会静默失败（try? 吞掉）⇒ sheet 开的是 taskID=0 的空任务。
+    /// ⇒ 这里**新建**一条 planned 任务再 start，标题可控、状态必成。
+    private func openDebugSheetIfNeeded() {
+        guard let route = DebugShot.route else { return }
+        switch route {
+        case "newTask":
+            showingNewTask = true
+        case "timer", "timerPaused":
+            let repo = VaultRepository()
+            guard let task = try? repo.createTask(
+                title: L("onboarding_3_task_title"),
+                category: .work,
+                estimatedSeconds: 30 * 60
+            ), let id = task.id else { return }
+            try? repo.startTask(id: id)
+            if route == "timerPaused" {
+                // 截「暂停」态：启动后立刻暂停。
+                try? repo.pauseTask(id: id)
+            }
+            store.refresh()
+            timerTaskID = id
+            showingTimer = true
+        case "resume":
+            // 制造「上次关 App 时还在计时」的现场：新建一条并让它 running。
+            let repo = VaultRepository()
+            guard let task = try? repo.createTask(
+                title: L("onboarding_3_task_title"),
+                category: .work,
+                estimatedSeconds: 30 * 60
+            ), let id = task.id else { return }
+            try? repo.startTask(id: id)
+            store.refresh()
+            store.debugMakeRecoverable()
+        default:
+            break
         }
     }
 
