@@ -176,19 +176,32 @@ xcrun simctl bootstatus "$SIM" -b 2>/dev/null || true
 cd "$APP_DIR/ios" || exit 1
 command -v xcodegen >/dev/null 2>&1 && xcodegen generate >/dev/null 2>&1
 
-FAILED=""
-COUNT=0
-echo "$PAIRS" | while IFS='|' read -r asc app_lang sys_locale; do
+FAILED_FILE="$APP_DIR/.screenshot-failed.txt"
+: > "$FAILED_FILE"
+COUNT_FILE="$APP_DIR/.screenshot-count.txt"
+echo 0 > "$COUNT_FILE"
+# ⚠️ 原来用 `echo "$PAIRS" | while ...` —— 管道让 while 跑在**子 shell** 里
+# → COUNT/FAILED 的赋值出不来 → 脚本永远报「完成，失败 locale：无」。
+# 改成「先写临时文件，再 while read < 文件」→ 变量在当前 shell 里生效。
+PAIRS_FILE="$APP_DIR/.screenshot-pairs.txt"
+printf '%s\n' "$PAIRS" | grep -v '^[[:space:]]*$' > "$PAIRS_FILE"
+
+while IFS='|' read -r asc app_lang sys_locale; do
   [ -z "$asc" ] && continue
   if [ -n "$ONLY" ] && [ "$asc" != "$ONLY" ]; then continue; fi
   dest="$OUT_ROOT/$asc"
   if shoot_locale "$asc" "$app_lang" "$sys_locale" "$dest"; then
-    COUNT=$((COUNT+1))
+    COUNT=$(cat "$COUNT_FILE")
+    echo $((COUNT+1)) > "$COUNT_FILE"
     check_sizes "$dest" || echo "  ⚠️ $asc 尺寸有问题"
   else
-    FAILED="$FAILED $asc"
+    echo "$asc" >> "$FAILED_FILE"
   fi
-done
+done < "$PAIRS_FILE"
+
+COUNT=$(cat "$COUNT_FILE")
+FAILED=$(cat "$FAILED_FILE" | tr '\n' ' ')
+rm -f "$PAIRS_FILE" "$COUNT_FILE" "$FAILED_FILE"
 
 echo
-echo "完成。失败 locale：${FAILED:-无}"
+echo "完成。成功 $COUNT 个 locale。失败 locale：${FAILED:-无}"

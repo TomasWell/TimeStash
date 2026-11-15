@@ -19,7 +19,20 @@ BUNDLE=com.junxf.timestash
 TEAM=QLJ5YWNC2W
 DD=~/TimeStash/ios/DerivedData
 OUT=~/TimeStash/build
-IPA="$OUT/TimeStash-1.0-build11.ipa"
+# ⚠️ build 号**不能写死**（2026-11-16 P0 实测修）：原来这里写死 "11"，
+# 而 project.yml 已经升到 13 → 上传时声明的号与包里的号不一致 → Apple 报
+# 90345 Metadata/Info.plist Mismatch，反复重传都一样。
+# 现在从 project.yml 动态读，两处版本号永远一致。
+read -r MV CV < <(python3.11 - <<'PY'
+import re
+s = open('/Users/mac/TimeStash/ios/project.yml', encoding='utf-8').read()
+mv = re.search(r'MARKETING_VERSION:\s*"([^"]+)"', s)
+cv = re.search(r'CURRENT_PROJECT_VERSION:\s*"(\d+)"', s)
+print(mv.group(1) if mv else "1.0", cv.group(1) if cv else "1")
+PY
+)
+IPA="$OUT/TimeStash-${MV}-build${CV}.ipa"
+echo "== 版本号（从 project.yml 读）== marketing=$MV build=$CV ipa=$IPA"
 
 cd ~/TimeStash/ios || exit 1
 mkdir -p "$OUT"
@@ -75,8 +88,8 @@ echo "== 4. 上传 =="
 #    不一致会被 Apple 拒（ITMS-90345 Metadata/Info.plist Mismatch ✅）。
 asc builds upload --app "$APP" \
   --ipa "$IPA" \
-  --version "1.0" \
-  --build-number "11" 2>&1 | tail -14
+  --version "$MV" \
+  --build-number "$CV" 2>&1 | tail -14
 
 echo "== 5. 回读上传状态 =="
 asc builds uploads list --app "$APP" 2>/dev/null | python3 -c "
@@ -89,3 +102,37 @@ for u in d.get('data',[])[:2]:
         u.get('id','')[:8], a.get('cfBundleShortVersionString'), a.get('cfBundleVersion'),
         st.get('state'), st.get('errors')))
 "
+
+echo "== 6. 加密豁免（必做 + 必须回读，否则 doctor 报 blocking）=="
+# ⚠️ 只设标志不够：build 7 上传后这个键整个不存在 → doctor 报 build.encryption.missing
+#    → 提不了审。所以设完必须**回读确认**，不能只看命令返回。
+# 纯本地 App + Apple 标准框架 → 豁免，无需 PDF 声明。
+sleep 20
+BID=$(asc builds list --app "$APP" --output json 2>/dev/null | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+items=d if isinstance(d,list) else d.get('data',[])
+best=None
+for b in items:
+    a=b.get('attributes',{})
+    if a.get('version')=='$MV' and a.get('processingState')=='VALID':
+        if best is None or int(a.get('version',0))>int(best['attributes'].get('version',0)):
+            best=b
+print(best['id'] if best else '')
+")
+if [ -n "$BID" ]; then
+  asc builds update --build-id "$BID" --uses-non-exempt-encryption=false 2>&1 | tail -3
+  echo "  回读 usesNonExemptEncryption:"
+  asc builds list --app "$APP" --output json 2>/dev/null | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+items=d if isinstance(d,list) else d.get('data',[])
+for b in items:
+    a=b.get('attributes',{})
+    if a.get('version')=='$MV':
+        print('    build', a.get('version'), 'processingState=', a.get('processingState'),
+              'usesNonExemptEncryption=', a.get('usesNonExemptEncryption'), 'id=', b.get('id'))
+"
+else
+  echo "  ⚠️ 还没找到 VALID 的 build $MV，稍后重跑这一步"
+fi
