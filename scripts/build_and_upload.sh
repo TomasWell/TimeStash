@@ -134,5 +134,5 @@ for b in items:
               'usesNonExemptEncryption=', a.get('usesNonExemptEncryption'), 'id=', b.get('id'))
 "
 else
-  echo "  ⚠️ 还没找到 VALID 的 build $MV，稍后重跑这一步"
+  echo "  ⚠️ 还没找到 VALID 的 build ${MV}，稍后重跑这一步"
 fi

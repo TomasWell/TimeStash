@@ -104,7 +104,7 @@ if [ "$COUNT" = "0" ]; then
   tail -20 "$LOG"
   exit 2
 fi
-echo "✅ 实际执行了 $COUNT 个用例（swift-testing $ST_COUNT + XCTest $XC_COUNT）"
+echo "✅ 实际执行了 $COUNT 个用例（swift-testing $ST_COUNT + XCTest ${XC_COUNT}）"
 
 echo
 echo "=== 3. 崩溃检查 ==="

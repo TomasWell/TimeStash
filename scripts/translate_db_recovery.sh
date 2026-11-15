@@ -20,7 +20,7 @@ PROMPT='Translate these three iOS .strings entries into the language identified 
 
 for code in $LOCALES; do
   TARGET="$I18N/$code.lproj/Localizable.strings"
-  [ -f "$TARGET" ] || { echo "跳过 $code（没有 .lproj）"; continue; }
+  [ -f "$TARGET" ] || { echo "跳过 ${code}（没有 .lproj）"; continue; }
   # 已经有就跳过（可重复执行）
   if grep -q '"db_recovery_title"' "$TARGET"; then
     echo "已有 $code —— 跳过"

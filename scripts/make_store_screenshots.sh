@@ -100,7 +100,7 @@ shoot_locale() {
   local asc_locale="$1" app_lang="$2" sys_locale="$3" dest="$4"
   mkdir -p "$dest"
 
-  echo "=== 拍 $asc_locale（App 内语言 $app_lang）==="
+  echo "=== 拍 ${asc_locale}（App 内语言 ${app_lang}）==="
   rm -rf "$WORK"
   mkdir -p "$WORK"
   cd "$APP_DIR/ios" || return 1
@@ -168,7 +168,7 @@ case "$MODE" in
     ;;
 esac
 
-echo "=== 启动 $SIM（6.7 寸，${EXPECTED_W}x${EXPECTED_H}）==="
+echo "=== 启动 ${SIM}（6.7 寸，${EXPECTED_W}x${EXPECTED_H}）==="
 xcrun simctl boot "$SIM" 2>/dev/null || true
 sleep 8
 xcrun simctl bootstatus "$SIM" -b 2>/dev/null || true
