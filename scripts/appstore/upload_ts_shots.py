@@ -22,6 +22,7 @@
     python3.11 upload_ts_shots.py --verify         # 回读每个 locale 的张数
 """
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -150,6 +151,38 @@ def upload_one(tok, loc_id, path, fname, before_ids):
     return False, "FAILED", out[:200]
 
 
+def md5(path):
+    h = hashlib.md5()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def already_matching(tok, lid, loc, d, files):
+    """该 locale 的 ASC 截图是否已经与本地完全一致（10/10 checksum 相同）。
+
+    ⚠️ 2026-11-16 P0 加这条的理由：脚本自报的 "uploaded 10/10" **不可信** ——
+    实测 da / el 两个 locale 脚本报「上传 10/10 全绿」，独立回读却是**旧图**
+    （checksum 与本地全不相同）→ 又一处假绿。
+    ⇒ 传之前先独立比对「ASC 上每张图的 checksum vs 本地文件的 md5」，
+      已经一致的**直接跳过**，不浪费配额重传。
+    """
+    asc = {}
+    sets = api("/v1/appStoreVersionLocalizations/%s/appScreenshotSets?limit=20" % lid, tok)
+    for st in sets.get("data", []):
+        dt = (st.get("attributes") or {}).get("screenshotDisplayType") or ""
+        if not dt.startswith("APP_IPHONE"):
+            continue
+        for x in api("/v1/appScreenshotSets/%s/appScreenshots?limit=100" % st["id"], tok).get("data", []):
+            a = x.get("attributes") or {}
+            asc[a.get("fileName")] = a.get("sourceFileChecksum")
+    if len(asc) != len(files):
+        return False, len(asc)
+    match = sum(1 for f in files if asc.get(f) and asc[f].lower() == md5(os.path.join(d, f)))
+    return match == len(files), match
+
+
 def local_dir_for(asc_loc):
     tag = TAG.get(asc_loc, asc_loc)
     d = os.path.join(SHOTS, tag)
@@ -182,14 +215,25 @@ def main():
         print("异常 locale 数: %d" % bad)
         return
 
+    def has_local(loc):
+        d = local_dir_for(loc)
+        # ⚠️ 必须 == 10 张（本地拍完）—— 原来 >= 5 会把「拍到一半」的 locale
+        # 也当成已拍好 → 传上去的张数不足 → 商店页少图（实测 fi 8 张 / hr 9 张）。
+        return bool(d) and len([f for f in os.listdir(d) if f.endswith(".png")]) >= 10
+
     if args.locale:
         targets = [(lid, loc) for lid, loc in locs if loc == args.locale]
     elif args.all:
-        targets = [(lid, loc) for lid, loc in locs]
+        # ⚠️ 优先处理「本地已经拍好」的 locale（拍摄还在后台跑）。
+        #    原来无条件处理全部 48 个 → 遇到还没拍的 locale 会白跑一轮
+        #    （删图 + 上传旧图），白花配额还把顺序打乱。
+        targets = [(lid, loc) for lid, loc in locs if has_local(loc)]
+        pending = [(lid, loc) for lid, loc in locs if not has_local(loc)]
+        if pending:
+            print("本地还没拍好的 locale（跳过，等拍完再跑）：%s" %
+                  " ".join(loc for _, loc in pending))
     else:
-        # 默认：只处理「本地已经拍好」的 locale（拍摄还在后台跑）
-        targets = [(lid, loc) for lid, loc in locs
-                   if local_dir_for(loc) and len([f for f in os.listdir(local_dir_for(loc)) if f.endswith('.png')]) >= 5]
+        targets = [(lid, loc) for lid, loc in locs if has_local(loc)]
 
     if args.plan:
         for lid, loc in targets:
@@ -211,11 +255,20 @@ def main():
             print("  ⛔ %-8s 本地目录不存在（跳��）" % loc)
             continue
         files = sorted(f for f in os.listdir(d) if f.endswith(".png"))
-        if len(files) < 5:
-            print("  ⛔ %-8s 本地只有 %d 张（不足 5 张，跳过）" % (loc, len(files)))
+        if len(files) < 10:
+            print("  ⛔ %-8s 本地只有 %d 张（不足 10 张，跳过）" % (loc, len(files)))
             continue
 
-        # ① 先删该 locale 的旧 iPhone 图（ASC 是追加语义，不删 = 商店页出现重复轮播）
+        # ① 已经与本地一致的 → 直接跳过（不浪费配额重传）
+        same, detail = already_matching(tok, lid, loc, d, files)
+        if same:
+            print("  ✅ %-8s 已是本地新图（%d/%d 一致），跳过" % (loc, detail, len(files)))
+            progress[loc] = {"uploaded": len(files), "total": len(files),
+                             "at": time.strftime("%Y-%m-%d %H:%M:%S"), "skipped": "already_matching"}
+            json.dump(progress, open(PROGRESS, "w"), ensure_ascii=False, indent=1)
+            continue
+
+        # ② 先删该 locale 的旧 iPhone 图（ASC 是追加语义，不删 = 商店页出现重复轮播）
         # ⚠️⚠️ 删失败**必须中止**（2026-11-16 P0 修正假绿）：
         #   版本已挂进 submission 时 Apple 报 "Can't Delete Screenshot while Ready
         #   For Review" → 旧图删不掉 → 此时继续上传 = 追加同名图 = 商店页重复轮播；
@@ -240,7 +293,7 @@ def main():
                 json.dump(progress, open(PROGRESS, "w"), ensure_ascii=False, indent=1)
                 continue
 
-        # ② 逐张串行传（每张传前记录当前 id 集合 → 传后回读「有没有新增 id」）
+        # ③ 逐张串行传（每张传前记录当前 id 集合 → 传后回读「有没有新增 id」）
         done = 0
         for f in files:
             p = os.path.join(d, f)
