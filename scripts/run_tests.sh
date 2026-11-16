@@ -21,6 +21,8 @@ set -u
 
 
 APP="TimeStash"
+# 脚本自己的目录（必须在任何 cd 之前算 —— 见下方注释）
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="/Users/mac/TimeStash"
 # 默认设备：iPhone 15 Pro / iOS 17.4
 DEV="${DEV:-E844988F-921E-4F5A-A84F-CB945112AAE0}"
@@ -50,7 +52,6 @@ trap 'rm -rf "$LOCK" 2>/dev/null' EXIT INT TERM
 # 现在每轮写 <App>_test_<时间戳>.log，/tmp/<App>_test.log 只是软链到最新一轮。
 STAMP=$(date +%Y%m%d-%H%M%S)
 LOG="/tmp/${APP}_test_${STAMP}.log"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # 跑之前的崩溃基线
 CRASH_BEFORE=$(ls ~/Library/Logs/DiagnosticReports/${APP}-*.ips 2>/dev/null | wc -l | tr -d ' ')
