@@ -44,6 +44,11 @@ targets:
         # 两处都要排除。
         excludes:
           - "i18n/.i18n-progress.json"
+          # ⚠️ 2026-11-16 P0：翻译 ca/or 时用了另一个进度文件名
+          #   （.i18n-progress-caor.json），原 excludes 只挡了固定那一个
+          #   → 新的进度文件会被**打进 App 包**（.json 是资源）。
+          # ⇒ 改成通配，挡掉所有 .i18n-progress*.json。
+          - "i18n/.i18n-progress*.json"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.junxf.timestash
@@ -60,9 +65,18 @@ targets:
         #      → 一份种子数据能出 48 个语言的商店页（2.3.3）
         #   ④ 截图模式跳过系统通知授权弹窗（原会盖住整个计时界面，2.3.3）
         #   ⑤ run_tests.sh 用例数口径修正（swift-testing + XCTest 相加）
+        #
+        # build 14 = build 13 + 2026-11-16 P0 补漏：
+        #   ① **补 ca.lproj / or.lproj 两个界面语言**（各 110 键全译）
+        #      —— ASC 有 48 个商店页，其中 ca（加泰罗尼亚语）和 or-IN（奥里亚语）
+        #      **两个 locale 在 App 里根本没有对应 .lproj** → 那两个商店页
+        #      无论截什么图都只能拍到别的语言 → 违反 2.3.3。
+        #      现在补上 → App 界面语言 52 个，覆盖 ASC 全部 48 个商店页。
+        #   ② CFBundleLocalizations 补 ca / or（否则系统「设置→App→语言」列不出）
+        #   ③ project.yml 排除进度文件改成通配（.i18n-progress*.json）
         # ⚠️ marketing version 沿用 1.0（**不**升 1.0.1）：被拒后原地重提，
         #    Apple 同一时间只有一个可编辑版本槽，且实测 verId 不变。
-        CURRENT_PROJECT_VERSION: "13"
+        CURRENT_PROJECT_VERSION: "14"
         GENERATE_INFOPLIST_FILE: "YES"
         INFOPLIST_KEY_CFBundleDisplayName: TimeStash
         DEVELOPMENT_LANGUAGE: zh-Hans
@@ -102,6 +116,7 @@ targets:
           - ar
           - bg
           - bn
+          - ca
           - cs
           - da
           - de
@@ -130,6 +145,7 @@ targets:
           - ms
           - nb
           - nl
+          - or
           - pa
           - pl
           - pt-BR
@@ -157,6 +173,10 @@ targets:
     resources:
       - path: TimeStash/i18n
         buildPhase: resources
+        # ⚠️ 2026-11-16 P0：resources 段也要排除进度文件
+        #   （sources 段的 excludes 只挡目录扫描，挡不住资源拷贝）。
+        excludes:
+          - ".i18n-progress*.json"
 
   TimeStashWidget:
     type: app-extension
@@ -178,7 +198,9 @@ targets:
         CODE_SIGN_STYLE: Manual
         MARKETING_VERSION: "1.0"
         # ⚠️ 扩展包版本号必须与主 App 一致（否则上传报 90345 版本不一致）
-        CURRENT_PROJECT_VERSION: "13"
+        # ⚠️ 2026-11-16 P0：主 App 升到 14 后，**这里也要一起升** ——
+        #    只改主 App 会导致 90345 版本不一致 → 上传必失败。
+        CURRENT_PROJECT_VERSION: "14"
         GENERATE_INFOPLIST_FILE: "YES"
         DEVELOPMENT_LANGUAGE: zh-Hans
         SWIFT_EMIT_LOC_STRINGS: "YES"

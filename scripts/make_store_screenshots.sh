@@ -76,6 +76,8 @@ tr|tr|tr_TR
 uk|uk|uk_UA
 ur-PK|ur|ur_PK
 vi|vi|vi_VN
+ca|ca|ca_ES
+or-IN|or|or_IN
 "
 
 check_sizes() {
@@ -104,6 +106,15 @@ check_sizes() {
 #    （2026-11-10 DailyMe 实测过；2026-11-16 TimeStash 再次实测确认：
 #     只传 -AppleLanguages 启动参数 → 拍出来仍是中文）。
 #    且改完语言**必须重启模拟器**才生效（2026-11-16 实测：改完直接拍仍是旧语言）。
+# 商店页 10 张图的**固定文件名**（顺序即轮播顺序）
+# ⚠️ 2026-11-16 P0：原来只判「张数 >= 5」就算成功 → 一个 locale 拍到 5 张
+# 也报 ✅ → 商店页少图（实测 fi 8 张 / hr 9 张 / no 只有 6 张）。
+# 更糟的是 `cp "$WORK"/*.png "$dest"/` 会把**残缺的一批**拷进目标目录，
+# 而目标目录里**上一次跑剩下的旧图不会被清掉** → 目录里混着两批不同语言的图
+# （实测 no 目录 = 01 + 06~10，来自两次不同的跑批）→ 上传的图语言是乱的。
+# ⇒ 现在必须**10 个文件全在且名字齐全**才算成功，且开始前先清空目标目录。
+EXPECTED_SHOTS="01-onboarding-problem 02-onboarding-mechanism 03-onboarding-try 04-onboarding-timer 05-onboarding-baseline 06-vault-home 07-ledger 08-stats 09-new-task 10-timer"
+
 shoot_locale() {
   local asc_locale="$1" app_lang="$2" sys_locale="$3" dest="$4"
   mkdir -p "$dest"
@@ -140,13 +151,7 @@ shoot_locale() {
     -only-testing:TimeStashUITests/ScreenshotCapture \
     > "$WORK/xcodebuild.log" 2>&1 || true
 
-  local n=$(ls "$WORK"/*.png 2>/dev/null | wc -l | tr -d ' ')
-  if [ "$n" -lt 5 ]; then
-    echo "  ⛔ 只拍到 $n 张（应为 10）—— 看 $WORK/xcodebuild.log"
-    tail -25 "$WORK/xcodebuild.log"
-    return 1
-  fi
-  # 0 字节 = simctl 在设备没起来时静默产出空文件（2026-11-10 DailyMe 实测）
+  # ⚠️ 0 字节 = simctl 在设备没起来时静默产出空文件（2026-11-10 DailyMe 实测）
   local empty=0
   for f in "$WORK"/*.png; do
     [ -e "$f" ] || continue
@@ -155,13 +160,29 @@ shoot_locale() {
       rm -f "$f"; empty=$((empty+1))
     fi
   done
-  if [ "$empty" -gt 0 ]; then
-    echo "  ⛔ 丢了 $empty 张异常图（设备没真正起来）"
+
+  # ⚠️ 必须**逐个名字**核对齐全，不能只数张数
+  #   （2026-11-16 P0：实拍断点就断在引导流程中间 —— 实测 no 目录里
+  #    有 01 和 06~10 却没有 02~05，张数 6 < 10 会被旧判据放行。）
+  local missing=""
+  for name in $EXPECTED_SHOTS; do
+    [ -f "$WORK/$name.png" ] || missing="$missing $name"
+  done
+  if [ -n "$missing" ]; then
+    echo "  ⛔ 缺${missing} —— 拍图断在中途（UITest 崩或元素没出现）"
+    if [ "$empty" -gt 0 ]; then
+      echo "     另有 $empty 张异常小图（设备没真正起来）"
+    fi
+    grep -nE "Restarting after unexpected exit|XCTAssertTrue failed|error:" "$WORK/xcodebuild.log" 2>/dev/null | head -4
     return 1
   fi
-  cp "$WORK"/*.png "$dest"/
+
+  # ⚠️ 成功才落到目标目录；且**先清空**目标目录，
+  #    否则上一次残缺的图会留在里面混进这一批（实测 no 目录混了两批语言）。
+  rm -f "$dest"/*.png
+  cp "$WORK"/*.png "$dest"/ || return 1
   rm -rf "$WORK"
-  echo "  ✅ $n 张 → $dest"
+  echo "  ✅ 10 张齐全 → $dest"
   return 0
 }
 
@@ -179,6 +200,13 @@ case "$MODE" in
     ;;
   --locale)
     ONLY="$2"
+    ;;
+  --locales)
+    # ⚠️ 2026-11-16 P0 加：逗号分隔的多个 locale。
+    # 为什么需要：只补拍「拍残缺的 locale」时，手工一��个跑 --locale 太慢；
+    # 而 --all 会把已经拍好的 30 个 locale **全部重拍一遍**（每个 ~2.5 分钟）。
+    ONLY="$2"
+    ONLY_LIST="$2"
     ;;
   --all)
     ONLY=""
@@ -212,9 +240,34 @@ printf '%s\n' "$PAIRS" | grep -v '^[[:space:]]*$' > "$PAIRS_FILE"
 
 while IFS='|' read -r asc app_lang sys_locale; do
   [ -z "$asc" ] && continue
-  if [ -n "$ONLY" ] && [ "$asc" != "$ONLY" ]; then continue; fi
+  if [ -n "$ONLY_LIST" ]; then
+    # --locales 模式：只在列表里才拍
+    case ",$ONLY_LIST," in
+      *",$asc,"*) ;;
+      *) continue ;;
+    esac
+  elif [ -n "$ONLY" ] && [ "$asc" != "$ONLY" ]; then
+    continue
+  fi
   dest="$OUT_ROOT/$asc"
-  if shoot_locale "$asc" "$app_lang" "$sys_locale" "$dest"; then
+  # ⚠️ 2026-11-16 P0：拍图会**偶发**断在引导流程中间（UITest runner 崩 →
+  #    xcodebuild 报 "Restarting after unexpected exit"）。实测一整轮 46 个 locale
+  #    里有 15 个只拍到 5~9 张（fi 8 / hr 9 / no 6 / pa-IN 5 …），
+  #    而旧循环**一次失败就永久跳过** → 这些 locale 的商店页永远少图。
+  # ⇒ 同一个 locale **最多重试 3 轮**，每轮都重新启动模拟器（模拟器状态
+  #    崩了以后重启才干净）。
+  ok=0
+  for attempt in 1 2 3; do
+    if shoot_locale "$asc" "$app_lang" "$sys_locale" "$dest"; then
+      ok=1
+      break
+    fi
+    echo "  🔁 $asc 第 $attempt 轮失败，重试（最多 3 轮）"
+    # 失败时把目标目录清空 → 不会残留半批图
+    rm -f "$dest"/*.png
+    sleep 5
+  done
+  if [ "$ok" = "1" ]; then
     COUNT=$(cat "$COUNT_FILE")
     echo $((COUNT+1)) > "$COUNT_FILE"
     check_sizes "$dest" || echo "  ⚠️ $asc 尺寸有问题"
