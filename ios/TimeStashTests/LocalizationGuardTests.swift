@@ -152,16 +152,29 @@ struct LocalizationGuardTests {
         #expect(!available.isEmpty, "Localizable.strings 一个 key 都没解析到 —— 解析器坏了")
 
         // 扫源码里所有 L("key") 调用
+        // ⚠️⚠️ 2026-11-16 P0：必须**跳过注释行**（与本文件上面两个守卫一致）。
+        //   起因：本守卫报了一个**不存在的缺键** `event_wake` —— 那不是代码，
+        //   是 DemoSeed.swift 里的一句文档注释「（`L("event_wake")`）」，
+        //   指的是 CommutePilot 的同类写法。
+        //   ⚠️ 为什么这条必须修而不能忽略：
+        //   **假阳性会逼人「把 key 从 .strings 里删掉」来让守卫变绿**
+        //   —— 那等于为了过检查而破坏真实文案（另一个守卫明令禁止）。
+        //   ⇒ 守卫只查**代码**，不查注释。
         var used = Set<String>()
+        let callPattern = #"\bL\(\s*\"([A-Za-z0-9_]+)\""#
+        guard let callRe = try? NSRegularExpression(pattern: callPattern) else { return }
         if let enumerator = FileManager.default.enumerator(at: sourceRoot, includingPropertiesForKeys: nil) {
             for case let url as URL in enumerator where url.pathExtension == "swift" {
                 guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
-                let pattern = #"\bL\(\s*\"([A-Za-z0-9_]+)\""#
-                guard let re = try? NSRegularExpression(pattern: pattern) else { continue }
-                let ns = text as NSString
-                for match in re.matches(in: text, range: NSRange(location: 0, length: ns.length)) {
-                    guard let r = Range(match.range(at: 1), in: text) else { continue }
-                    used.insert(String(text[r]))
+                for line in text.components(separatedBy: "\n") {
+                    let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+                    // 跳过注释行（// 与 /// 与 /* */ 块的行首 * ）
+                    if trimmed.hasPrefix("//") || trimmed.hasPrefix("*") { continue }
+                    let ns = line as NSString
+                    for match in callRe.matches(in: line, range: NSRange(location: 0, length: ns.length)) {
+                        guard let r = Range(match.range(at: 1), in: line) else { continue }
+                        used.insert(String(line[r]))
+                    }
                 }
             }
         }
