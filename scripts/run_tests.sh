@@ -50,6 +50,7 @@ trap 'rm -rf "$LOCK" 2>/dev/null' EXIT INT TERM
 # 现在每轮写 <App>_test_<时间戳>.log，/tmp/<App>_test.log 只是软链到最新一轮。
 STAMP=$(date +%Y%m%d-%H%M%S)
 LOG="/tmp/${APP}_test_${STAMP}.log"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # 跑之前的崩溃基线
 CRASH_BEFORE=$(ls ~/Library/Logs/DiagnosticReports/${APP}-*.ips 2>/dev/null | wc -l | tr -d ' ')
@@ -106,6 +107,29 @@ if [ "$COUNT" = "0" ]; then
 fi
 echo "✅ 实际执行了 $COUNT 个用例（swift-testing $ST_COUNT + XCTest ${XC_COUNT}）"
 
+# ⚠️ 2026-11-16 22:05 夜间档实测加：**「started 但从未报结果」的用例 = 静默丢失**。
+#
+# UI 测试 runner 进程中途自己死了（日志里 "Restarting after unexpected exit,
+# crash, or test timeout"），xcodebuild 重启 runner 后**直接从下一个用例开始跑** ——
+# 死在半路的那一个用例**既没 passed 也没 failed**，断言根本没跑完。
+#
+# ⚠️ 为什么旧的三道校验都发现不了：
+#   「用例数 > 0」照样 > 0（丢失的用例已被计入）；
+#   「0 failures」照样 = 0（它没报 failed）；「0 崩溃」照样 = 0（死的是 runner 不是 App）。
+#   ⇒ 三道全绿，但有一个用例的断言根本没跑完 ⇒ 必须单独查。
+#
+# ⚠️ 判据逻辑单独放一个脚本 —— 内嵌在 .sh 里的正则第一版写错成贪婪匹配
+#   （吞掉类名 → 空格永不匹配 → 一个都抓不到 → 永远说「没丢」= 假绿）。
+if [ -f "$SCRIPT_DIR/check_lost_tests.py" ]; then
+  if python3 "$SCRIPT_DIR/check_lost_tests.py" "$LOG"; then
+    echo "✅ 没有静默丢失的用例"
+  else
+    SILENT_LOST=1
+  fi
+else
+  echo "⚠️ 找不到 check_lost_tests.py，跳过「静默丢失」检查"
+fi
+
 echo
 echo "=== 3. 崩溃检查 ==="
 CRASH_AFTER=$(ls ~/Library/Logs/DiagnosticReports/${APP}-*.ips 2>/dev/null | wc -l | tr -d ' ')
@@ -133,6 +157,13 @@ echo "完整日志：$LOG"
 # ── 退出码：崩溃 / 测试失败 → 非 0（2026-11-11 06:0x 实测修） ──
 # ⚠️ 这三道校验（用例数 > 0 / 崩溃检查 / 测试结果）以前**只打印不拦**，
 # 上层只看退出码 → 全部假绿。现在统一在这里拦。
+if [ "${SILENT_LOST:-0}" -gt 0 ]; then
+  # ⛔ runner 重启导致用例静默丢失 —— 不能放行。
+  #   放行前提是「所有用例都跑完了」，这里前提不成立 ⇒ 按失败算。
+  echo "⛔ 本轮判定为失败（有用例静默丢失，runner 中途死掉）—— 退出码非 0"
+  echo "   处置：重跑本轮测试；或 xcrun simctl shutdown ${DEV} && xcrun simctl erase ${DEV} 后重跑"
+  exit 1
+fi
 if [ "${CRASH_FAIL:-0}" -gt 0 ] || [ "${TEST_FAIL:-0}" -gt 0 ]; then
   echo "⛔ 本轮判定为失败（崩溃=${CRASH_FAIL:-0} 测试结果=${TEST_FAIL:-0}）—— 退出码非 0"
   exit 1
