@@ -137,3 +137,21 @@ for b in items:
 else
   echo "  ⚠️ 还没找到 VALID 的 build $CV，稍后重跑这一步"
 fi
+
+echo "== 7. 挂回版本槽（必须，否则提审包里还是旧 build）=="
+# ⚠️ 2026-11-16 P0 补：这个脚本原来**只上传不挂载** → build 传上去了，
+#    但版本槽 46a2877b 挂的还是上上次的 build（13）→ 商店页截图是按
+#    新语言（ca/or）渲染的，而提审包里根本没有那两个语言包 → 前后不一致。
+# ⚠️ 被拒后**不新建版本槽**（Apple 同一时间只有一个可编辑版本槽，
+#    实测被拒后 verId 不变）→ 原地 attach 到同一个 verId。
+VER=46a2877b-8ab7-4884-8b21-cfc4583ad3a9
+asc versions attach-build --version-id "$VER" --build "$BID" 2>&1 | tail -3
+echo "  回读版本槽挂的 build："
+TOK=$(asc auth token --confirm 2>/dev/null)
+curl -s -H "Authorization: Bearer $TOK" \
+  "https://api.appstoreconnect.apple.com/v1/appStoreVersions/$VER/build" \
+  | python3 -c "
+import json,sys
+d=json.load(sys.stdin).get('data') or {}
+print('    build id =', d.get('id'), '| build 号 =', (d.get('attributes') or {}).get('version'))
+"
